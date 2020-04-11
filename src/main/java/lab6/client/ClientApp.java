@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import lab6.client.commands.Command;
 import lab6.client.interfaces.Client;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
@@ -36,10 +37,16 @@ public class ClientApp implements Client {
     public void start() {
         System.out.println(" ~ Начало работы клиента ~ ");
         while (true) {
+            System.out.print(">> ");
             // Считывание
             String[] input = consoleScanner.nextLine().trim().split(" ");
             // Парсинг и выполнение
-            Parser.parseThenRun(input, commandRepository);
+            Command command = Parser.parseThenRun(input, commandRepository);
+            if (command.isServerSide()) {
+                serverIO.sendToServer(command); // TODO
+            }
+            // Тут видимо принимаем ответ
+            // и по новой
         }
     }
 }

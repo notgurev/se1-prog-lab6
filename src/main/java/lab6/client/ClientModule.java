@@ -5,6 +5,7 @@ import com.google.inject.Provides;
 import lab6.client.interfaces.Client;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
+import lab6.client.interfaces.ServerIO;
 
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class ClientModule extends AbstractModule {
         bind(Client.class).to(ClientApp.class);
         bind(CommandRepository.class).to(CommandInvoker.class);
         bind(ClientCommandReceiver.class).to(ClientCommandReceiverImpl.class);
+        bind(ServerIO.class).to(MyServerIO.class);
     }
 
     @Provides
