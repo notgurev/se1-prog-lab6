@@ -5,6 +5,7 @@ import lab6.client.commands.AbstractCommand;
 import lab6.client.commands.concrete.*;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
+import lab6.exceptions.SelfCallingScriptException;
 import lab6.server.interfaces.CollectionWrapper;
 import lab6.util.LimitedStack;
 
@@ -58,5 +59,11 @@ public class CommandInvoker implements CommandRepository {
 
     @Override
     public void runCommand(String commandKey, String[] args) {
+        if (!commandMap.containsKey(commandKey)) {
+            System.out.println("Такой команды не существует. Список комманд: help.");
+            return;
+        }
+        commandMap.get(commandKey).clientExecute(args, clientCommandReceiver);
+        commandHistory.add(commandKey);
     }
 }

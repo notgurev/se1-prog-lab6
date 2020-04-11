@@ -25,8 +25,23 @@ public class ExecuteScript extends ScriptCommand {
 
     @Override
     public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
-        ArrayList<Integer> linesWithErrors = new ArrayList<>();
-        try (FileReader fileReader = new FileReader(args[0]); Scanner scanner = new Scanner(fileReader)) {
+        // Проверка на пустой аргумент
+        if (args.length == 0) {
+            System.out.println("Пожалуйста, введите путь к файлу скрипта.");
+            return;
+        }
+        String scriptFileName = args[0];
+
+        // Проверка на рекурсивный скрипт
+        if (clientReceiver.getExecutingScripts().contains(scriptFileName)) {
+            throw new SelfCallingScriptException();
+        }
+
+        try (FileReader fileReader = new FileReader(scriptFileName); Scanner scanner = new Scanner(fileReader)) {
+            // Добавляем имя скрипта в массив выполняющихся скриптов
+            clientReceiver.getExecutingScripts().add(scriptFileName);
+
+            ArrayList<Integer> linesWithErrors = new ArrayList<>();
             clientReceiver.setScriptScanner(scanner);
             String[] line;
             int currentLine = 0;
@@ -55,8 +70,9 @@ public class ExecuteScript extends ScriptCommand {
             System.out.println("Файл скрипта не найден!");
         } catch (IOException e) {
             System.out.println("Что-то пошло не так при чтении файла скрипта!");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Пожалуйста, введите путь к файлу скрипта.");
+        } finally {
+            // Когда закончили, удаляем название скрипта из executingScripts
+            clientReceiver.getExecutingScripts().remove(scriptFileName);
         }
     }
 }
