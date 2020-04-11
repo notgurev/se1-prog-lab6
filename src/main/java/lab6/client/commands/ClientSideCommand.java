@@ -18,7 +18,7 @@ public abstract class ClientSideCommand extends Command {
     }
 
     @Override
-    public boolean clientExecute(String[] args) {
+    public boolean clientExecute(String[] args, CommandReceiver clientReceiver) {
         return false;
     }
 }

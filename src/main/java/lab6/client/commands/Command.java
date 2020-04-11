@@ -6,7 +6,6 @@ import lab6.client.interfaces.CommandReceiver;
  * Базовый класс команды
  */
 public abstract class Command implements Executable {
-    protected CommandReceiver clientReceiver;
     protected boolean isScriptCalling = false;
     private String helpText;
     private String key;
