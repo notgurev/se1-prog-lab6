@@ -1,11 +1,13 @@
 package lab6.server.interfaces;
 
+import lab6.collection.LabWork;
 import lab6.exceptions.NoElementWithSuchIdException;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public interface CollectionWrapper {
-    long add(Object object);
+    long add(LabWork labWork);
 
     boolean isEmpty();
 
@@ -13,13 +15,13 @@ public interface CollectionWrapper {
 
     void clear();
 
-    String countLessThanDescription(String description);
+    long countLessThanDescription(String description);
 
     String getCollectionType();
 
-    String getSize();
+    int getSize();
 
-    String getInitDate();
+    LocalDate getInitDate();
 
     boolean sort();
 
@@ -27,11 +29,11 @@ public interface CollectionWrapper {
 
     Set<Integer> getUniqueTunedInWorks();
 
-    boolean filterGreaterThanMinimalPoint(int minimalPoint);
+    boolean filterGreaterThanMinimalPoint(Integer minimalPoint);
 
     void removeByID(long id) throws NoElementWithSuchIdException;
 
-    long addToPosition(Object carriedObject, int index);
+    long addToPosition(LabWork labWork, int index);
 
-    boolean replaceByID(long id, Object carriedObject);
+    boolean replaceByID(long id, LabWork labWork);
 }

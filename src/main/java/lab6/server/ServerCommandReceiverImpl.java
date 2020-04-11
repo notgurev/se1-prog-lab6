@@ -1,5 +1,6 @@
 package lab6.server;
 
+import lab6.collection.LabWork;
 import lab6.exceptions.NoElementWithSuchIdException;
 import lab6.server.interfaces.ClientIO;
 import lab6.server.interfaces.CollectionWrapper;
@@ -22,8 +23,8 @@ public class ServerCommandReceiverImpl implements ServerCommandReceiver {
     }
 
     @Override
-    public void add(Object o) {
-        long id = collectionWrapper.add(o);
+    public void add(LabWork labWork) {
+        long id = collectionWrapper.add(labWork);
         clientIO.printToClient(coloredYellow("Элемент успешно добавлен в коллекцию (id = " + id + ")."));
     }
 
@@ -104,15 +105,15 @@ public class ServerCommandReceiverImpl implements ServerCommandReceiver {
     }
 
     @Override
-    public void insertAt(Object carriedObject, int index) {
-        long id = collectionWrapper.addToPosition(carriedObject, index);
+    public void insertAt(LabWork labWork, int index) {
+        long id = collectionWrapper.addToPosition(labWork, index);
         clientIO.printToClient(coloredYellow("Элемент успешно добавлен в коллекцию (id = " + id +
                 ", index = " + index + ")."));
     }
 
     @Override
-    public void update(Object carriedObject, long id) {
-        if (collectionWrapper.replaceByID(id, carriedObject))
+    public void update(LabWork labWork, long id) {
+        if (collectionWrapper.replaceByID(id, labWork))
             clientIO.printToClient(coloredYellow("Элемент успешно заменён (id = " + id + ")."));
         else {
 //            if (executingScripts.isEmpty())

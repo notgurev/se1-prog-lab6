@@ -1,5 +1,7 @@
 package lab6.client.commands;
 
+import lab6.collection.LabWork;
+
 /**
  * Клиент-серверная команда, создающая объект.
  * Создает объект.
@@ -8,7 +10,7 @@ package lab6.client.commands;
  * Отправляется на сервер.
  */
 public abstract class ConstructingCommand extends AbstractCommand {
-    protected Object carriedObject;
+    protected LabWork carriedObject;
 
     public ConstructingCommand(String key, String helpText) {
         super(false, true, helpText, key);

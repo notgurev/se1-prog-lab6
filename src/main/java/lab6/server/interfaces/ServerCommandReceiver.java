@@ -1,9 +1,11 @@
 package lab6.server.interfaces;
 
+import lab6.collection.LabWork;
+
 public interface ServerCommandReceiver {
     void setCollectionFile(String fileName);
 
-    void add(Object o);
+    void add(LabWork labWork);
 
     void clear();
 
@@ -23,7 +25,7 @@ public interface ServerCommandReceiver {
 
     void removeByID(long id);
 
-    void insertAt(Object carriedObject, int index);
+    void insertAt(LabWork labWork, int index);
 
-    void update(Object carriedObject, long id);
+    void update(LabWork labWork, long id);
 }
