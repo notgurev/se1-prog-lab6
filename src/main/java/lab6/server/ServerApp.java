@@ -43,6 +43,7 @@ public class ServerApp implements Server {
             // Делаем что-то такое
             Command testCommand = new Show(); // Вместо штуки слева должна быть команда полученная
             testCommand.serverExecute(serverCommandReceiver);
+            // НЕ ЗАПУСКАЙ А ТО ОНО В ЦИКЛЕ
             /*
                 По идее MyClientIO должен теперь весь результат работы проги складывать в стринг, потом отправлять
                 сразу весь клиенту. У меня там метод printToClient, что не то. Надо реализовать нормально короче.
