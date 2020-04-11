@@ -5,23 +5,21 @@ import lab6.client.commands.AbstractCommand;
 import lab6.client.commands.concrete.*;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
-import lab6.exceptions.SelfCallingScriptException;
 import lab6.server.interfaces.CollectionWrapper;
 import lab6.util.LimitedStack;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
 public class CommandInvoker implements CommandRepository {
-    private ClientCommandReceiver clientCommandReceiver;
     private final HashMap<String, AbstractCommand> commandMap = new HashMap<>(); // HashMap команд
-    private Scanner consoleScanner; // Сканнер для считывания команд из консоли TODO final?
-    private Scanner scriptScanner; // Сканнер для считывания содержимого скрипта
-    private CollectionWrapper targetCollection; // Коллекция, с которой работает CommandManager TODO final?
+    private final Scanner consoleScanner; // Сканнер для считывания команд из консоли
+    private final CollectionWrapper targetCollection; // Коллекция, с которой работает CommandManager
     private final LimitedStack<String> commandHistory = new LimitedStack<>(13); // История команд (клиент-сайд)
     private final HashSet<String> executingScripts = new HashSet<>(); // Выполняющиеся в данный момент скрипты
+    private ClientCommandReceiver clientCommandReceiver;
+    private Scanner scriptScanner; // Сканнер для считывания содержимого скрипта
 
     @Inject
     public CommandInvoker(ClientCommandReceiver clientCommandReceiver, Scanner consoleScanner, Scanner scriptScanner, CollectionWrapper targetCollection) {
