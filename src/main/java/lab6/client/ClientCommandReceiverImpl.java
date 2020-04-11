@@ -12,16 +12,14 @@ import java.util.Scanner;
 
 public class ClientCommandReceiverImpl implements ClientCommandReceiver {
     private final Scanner consoleScanner; // Сканнер для считывания команд из консоли
-    private final CollectionWrapper targetCollection; // Коллекция, с которой работает CommandManager
     private final HashSet<String> executingScripts = new HashSet<>(); // Выполняющиеся в данный момент скрипты
     private Scanner scriptScanner; // Сканнер для считывания содержимого скрипта
     private String helpText;
     private final LimitedStack<String> commandHistory = new LimitedStack<>(13); // История команд (клиент-сайд)
 
     @Inject
-    public ClientCommandReceiverImpl(Scanner consoleScanner, CollectionWrapper targetCollection) {
+    public ClientCommandReceiverImpl(Scanner consoleScanner) {
         this.consoleScanner = consoleScanner;
-        this.targetCollection = targetCollection;
     }
 
     @Override
