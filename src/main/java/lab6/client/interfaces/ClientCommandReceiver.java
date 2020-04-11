@@ -13,4 +13,10 @@ public interface ClientCommandReceiver {
     void add();
 
     void clear();
+
+    void help();
+
+    void info();
+
+    void history();
 }
