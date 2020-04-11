@@ -11,4 +11,6 @@ public interface ClientCommandReceiver {
     Collection<Object> getExecutingScripts();
 
     void add();
+
+    void clear();
 }
