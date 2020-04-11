@@ -1,6 +1,6 @@
 package lab6.client.commands;
 
-import lab6.client.interfaces.ClientCommandReceiver;
+import lab6.server.interfaces.ServerCommandReceiver;
 
 /**
  * Клиентская команда.
@@ -14,7 +14,7 @@ public abstract class ClientSideCommand extends AbstractCommand {
     }
 
     @Override
-    public final void execute(ClientCommandReceiver clientCommandReceiver, String[] args) {
+    public final void serverExecute(ServerCommandReceiver clientCommandReceiver, String[] args) {
         // Здесь ничего нет, так как на сервер команда не отправляется
         // Также метод final, чтобы его нельзя было переопределить
     }

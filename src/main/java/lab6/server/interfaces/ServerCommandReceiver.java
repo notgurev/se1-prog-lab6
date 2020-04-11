@@ -8,4 +8,20 @@ public interface ServerCommandReceiver {
     Scanner getConsoleScanner();
 
     Scanner getScriptScanner();
+
+    void add();
+
+    void clear();
+
+    void countLessThanDescription(String description);
+
+    void info();
+
+    void printUniqueTunedInWorks();
+
+    void save();
+
+    void show();
+
+    void sort();
 }

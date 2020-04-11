@@ -2,6 +2,7 @@ package lab6.client.commands.concrete;
 
 import lab6.client.commands.RegularCommand;
 import lab6.client.interfaces.ClientCommandReceiver;
+import lab6.server.interfaces.ServerCommandReceiver;
 
 public class CountLessThanDescription extends RegularCommand {
     String description;
@@ -11,7 +12,7 @@ public class CountLessThanDescription extends RegularCommand {
     }
 
     @Override
-    public void execute(ClientCommandReceiver serverReceiver, String[] args) {
+    public void serverExecute(ServerCommandReceiver serverReceiver, String[] args) {
         serverReceiver.countLessThanDescription(description);
     }
 

@@ -10,25 +10,9 @@ public interface ClientCommandReceiver {
 
     Collection<Object> getExecutingScripts();
 
-    void add();
-
-    void clear();
-
     void help();
-
-    void info();
 
     void history();
 
     void exit();
-
-    void save();
-
-    void show();
-
-    void sort();
-
-    void printUniqueTunedInWorks();
-
-    void countLessThanDescription(String description);
 }

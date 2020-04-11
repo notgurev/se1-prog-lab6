@@ -1,7 +1,7 @@
 package lab6.client.commands.concrete;
 
 import lab6.client.commands.NonValidatingRegularCommand;
-import lab6.client.interfaces.ClientCommandReceiver;
+import lab6.server.interfaces.ServerCommandReceiver;
 
 public class Info extends NonValidatingRegularCommand {
     public Info() {
@@ -9,7 +9,7 @@ public class Info extends NonValidatingRegularCommand {
     }
 
     @Override
-    public void execute(ClientCommandReceiver serverReceiver, String[] args) {
+    public void serverExecute(ServerCommandReceiver serverReceiver, String[] args) {
         serverReceiver.info();
     }
 }

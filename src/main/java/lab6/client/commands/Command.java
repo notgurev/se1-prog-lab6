@@ -1,15 +1,15 @@
 package lab6.client.commands;
 
 import lab6.client.interfaces.ClientCommandReceiver;
+import lab6.server.interfaces.ServerCommandReceiver;
 
 public interface Command {
     /**
      * Метод, выполняемый на сервере
-     *
-     * @param serverReceiver ресивер команд, который передается сервером как аргумент
+     *  @param serverReceiver ресивер команд, который передается сервером как аргумент
      * @param args           аргументы команды
      */
-    void execute(ClientCommandReceiver serverReceiver, String[] args);
+    void serverExecute(ServerCommandReceiver serverReceiver, String[] args);
 
     /**
      * Метод, выполняемый на клиенте
