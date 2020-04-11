@@ -1,9 +1,9 @@
 package lab6.client.commands.concrete;
 
-import lab6.client.commands.RegularCommand;
+import lab6.client.commands.NonValidatingRegularCommand;
 import lab6.client.interfaces.ClientCommandReceiver;
 
-public class Info extends RegularCommand {
+public class Info extends NonValidatingRegularCommand {
     public Info() {
         super("info", " - вывести информацию о коллекции");
     }
@@ -11,10 +11,5 @@ public class Info extends RegularCommand {
     @Override
     public void execute(ClientCommandReceiver serverReceiver, String[] args) {
         serverReceiver.info();
-    }
-
-    @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
-        //empty
     }
 }
