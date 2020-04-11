@@ -2,6 +2,7 @@ package lab6.client;
 
 import com.google.inject.Inject;
 import lab6.client.commands.AbstractCommand;
+import lab6.client.commands.concrete.*;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
 import lab6.server.interfaces.CollectionWrapper;
@@ -29,7 +30,22 @@ public class CommandInvoker implements CommandRepository {
         this.targetCollection = targetCollection;
 
         addCommand(
-
+                new Add(),
+                new Clear(),
+                new CountLessThanDescription(),
+                new ExecuteScript(),
+                new Exit(),
+                new FilterGreaterThanMinimalPoint(),
+                new Help(),
+                new History(),
+                new Info(),
+                new InsertAt(),
+                new PrintUniqueTunedInWorks(),
+                new RemoveByID(),
+                new Save(),
+                new Show(),
+                new Sort(),
+                new Update()
         );
     }
 
