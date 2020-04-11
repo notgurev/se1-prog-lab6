@@ -53,6 +53,11 @@ public class CommandInvoker implements CommandRepository {
 
 
     @Override
+    public ServerIO getServerIO() {
+        return serverIO;
+    }
+
+    @Override
     public Command runCommand(String commandKey, String[] args) {
         if (!commandMap.containsKey(commandKey)) {
             System.out.println("Такой команды не существует. Список комманд: help.");

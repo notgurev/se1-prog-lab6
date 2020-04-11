@@ -1,0 +1,20 @@
+info
+add
+Проверка создания из скрипта
+3
+3.0
+3
+опис
+444
+EASY
+jack
+444.0
+3333333333333333333
+
+5
+5.0
+5
+info
+history
+history
+execute_script test.script

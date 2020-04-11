@@ -23,7 +23,6 @@ import static lab6.util.BetterStrings.coloredYellow;
 
 public class ExecuteScript extends ScriptCommand {
     private CommandRepository commandRepository;
-    private ServerIO serverIO;
 
     public ExecuteScript(CommandRepository commandRepository) {
         super("execute_script", " file_name - считать и исполнить скрипт из указанного файла");
@@ -57,7 +56,7 @@ public class ExecuteScript extends ScriptCommand {
                 line = scanner.nextLine().split(" ");
                 try {
                     Command command = Parser.parseThenRun(line, commandRepository);
-                    serverIO.sendToServer(command);
+                    commandRepository.getServerIO().sendToServer(command);
                     currentLine += LabWork.getNumberOfFields();
                 } catch (SelfCallingScriptException e) {
                     linesWithErrors.add(currentLine);
