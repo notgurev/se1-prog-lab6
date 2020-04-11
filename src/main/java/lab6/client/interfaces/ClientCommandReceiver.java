@@ -15,4 +15,8 @@ public interface ClientCommandReceiver {
     void history();
 
     void exit();
+
+    CommandRepository getCommandRepository();
+
+    void setScriptScanner(Scanner scanner);
 }
