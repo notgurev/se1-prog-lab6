@@ -18,7 +18,7 @@ public class CommandInvoker implements CommandRepository {
     private final CollectionWrapper targetCollection; // Коллекция, с которой работает CommandManager
     private final LimitedStack<String> commandHistory = new LimitedStack<>(13); // История команд (клиент-сайд)
     private final HashSet<String> executingScripts = new HashSet<>(); // Выполняющиеся в данный момент скрипты
-    private ClientCommandReceiver clientCommandReceiver;
+    private final ClientCommandReceiver clientCommandReceiver;
     private Scanner scriptScanner; // Сканнер для считывания содержимого скрипта
 
     @Inject
