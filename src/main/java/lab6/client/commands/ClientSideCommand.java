@@ -9,7 +9,7 @@ import lab6.client.interfaces.CommandReceiver;
  * Не отправляется на сервер.
  */
 public abstract class ClientSideCommand extends AbstractCommand {
-    public ClientSideCommand(String helpText, String key) {
+    public ClientSideCommand(String key, String helpText) {
         super(false, false, helpText, key);
     }
 

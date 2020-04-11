@@ -8,7 +8,7 @@ package lab6.client.commands;
  * Отправляется на сервер.
  */
 public abstract class RegularCommand extends AbstractCommand {
-    public RegularCommand(String helpText, String key) {
+    public RegularCommand(String key, String helpText) {
         super(false, true, helpText, key);
     }
 }

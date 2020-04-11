@@ -10,7 +10,7 @@ package lab6.client.commands;
 public abstract class ConstructingCommand extends AbstractCommand {
     private Object carriedObject;
 
-    public ConstructingCommand(String helpText, String key) {
+    public ConstructingCommand(String key, String helpText) {
         super(false, true, helpText, key);
     }
 }
