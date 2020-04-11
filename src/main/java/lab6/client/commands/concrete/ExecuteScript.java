@@ -3,6 +3,7 @@ package lab6.client.commands.concrete;
 import lab6.client.Parser;
 import lab6.client.commands.ScriptCommand;
 import lab6.client.interfaces.ClientCommandReceiver;
+import lab6.client.interfaces.CommandRepository;
 import lab6.collection.LabWork;
 import lab6.exceptions.LabWorkFieldException;
 import lab6.exceptions.SelfCallingScriptException;
@@ -19,6 +20,8 @@ import static lab6.util.BetterStrings.coloredRed;
 import static lab6.util.BetterStrings.coloredYellow;
 
 public class ExecuteScript extends ScriptCommand {
+    private CommandRepository commandRepository;
+
     public ExecuteScript() {
         super("execute_script", " file_name - считать и исполнить скрипт из указанного файла");
     }
@@ -49,7 +52,7 @@ public class ExecuteScript extends ScriptCommand {
                 currentLine++;
                 line = scanner.nextLine().split(" ");
                 try {
-                    Parser.parseThenRun(line, clientReceiver.getCommandRepository()); // TODO опять нужен repository, а есть только ресивер
+                    Parser.parseThenRun(line, commandRepository);
                     currentLine += LabWork.getNumberOfFields();
                 } catch (SelfCallingScriptException e) {
                     linesWithErrors.add(currentLine);
@@ -74,5 +77,9 @@ public class ExecuteScript extends ScriptCommand {
             // Когда закончили, удаляем название скрипта из executingScripts
             clientReceiver.getExecutingScripts().remove(scriptFileName);
         }
+    }
+
+    public void setCommandRepository(CommandRepository commandRepository) {
+        this.commandRepository = commandRepository;
     }
 }

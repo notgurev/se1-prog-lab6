@@ -2,32 +2,22 @@ package lab6.client;
 
 import com.google.inject.Inject;
 import lab6.client.commands.AbstractCommand;
+import lab6.client.commands.Command;
 import lab6.client.commands.concrete.*;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
-import lab6.server.interfaces.CollectionWrapper;
-import lab6.util.LimitedStack;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
+
+import static lab6.util.BetterStrings.multiline;
 
 public class CommandInvoker implements CommandRepository {
     private final HashMap<String, AbstractCommand> commandMap = new HashMap<>(); // HashMap команд
-    private final Scanner consoleScanner; // Сканнер для считывания команд из консоли
-    private final CollectionWrapper targetCollection; // Коллекция, с которой работает CommandManager
-    private final LimitedStack<String> commandHistory = new LimitedStack<>(13); // История команд (клиент-сайд)
-    private final HashSet<String> executingScripts = new HashSet<>(); // Выполняющиеся в данный момент скрипты
     private final ClientCommandReceiver clientCommandReceiver;
-    private Scanner scriptScanner; // Сканнер для считывания содержимого скрипта
 
     @Inject
-    public CommandInvoker(ClientCommandReceiver clientCommandReceiver, Scanner consoleScanner, Scanner scriptScanner, CollectionWrapper targetCollection) {
+    public CommandInvoker(ClientCommandReceiver clientCommandReceiver) {
         this.clientCommandReceiver = clientCommandReceiver;
-        this.consoleScanner = consoleScanner;
-        this.scriptScanner = scriptScanner;
-        this.targetCollection = targetCollection;
-
         addCommand(
                 new Add(),
                 new Clear(),
@@ -46,6 +36,8 @@ public class CommandInvoker implements CommandRepository {
                 new Sort(),
                 new Update()
         );
+        clientCommandReceiver.setHelpText(multiline((String[]) commandMap.values().stream()
+                .map(command -> command.getKey() + command.getHelpText()).toArray()));
     }
 
     private void addCommand(AbstractCommand... commands) {
@@ -61,7 +53,12 @@ public class CommandInvoker implements CommandRepository {
             System.out.println("Такой команды не существует. Список комманд: help.");
             return;
         }
-        commandMap.get(commandKey).clientExecute(args, clientCommandReceiver);
-        commandHistory.add(commandKey);
+        Command command = commandMap.get(commandKey);
+        if (command instanceof ExecuteScript) {
+            ExecuteScript scriptCommand = (ExecuteScript) command;
+            scriptCommand.setCommandRepository(this);
+        }
+        command.clientExecute(args, clientCommandReceiver);
+        clientCommandReceiver.getCommandHistory().add(commandKey);
     }
 }
