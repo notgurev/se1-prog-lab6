@@ -24,4 +24,6 @@ public interface ServerCommandReceiver {
     void show();
 
     void sort();
+
+    void filterGreaterThanMinimalPoint(int minimalPoint);
 }
