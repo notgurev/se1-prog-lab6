@@ -23,8 +23,9 @@ import static lab6.util.BetterStrings.coloredYellow;
 public class ExecuteScript extends ScriptCommand {
     private CommandRepository commandRepository;
 
-    public ExecuteScript() {
+    public ExecuteScript(CommandRepository commandRepository) {
         super("execute_script", " file_name - считать и исполнить скрипт из указанного файла");
+        this.commandRepository = commandRepository;
     }
 
     @Override
@@ -78,9 +79,5 @@ public class ExecuteScript extends ScriptCommand {
             // Когда закончили, удаляем название скрипта из executingScripts
             clientReceiver.getExecutingScripts().remove(scriptFileName);
         }
-    }
-
-    public void setCommandRepository(CommandRepository commandRepository) {
-        this.commandRepository = commandRepository;
     }
 }

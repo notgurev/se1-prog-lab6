@@ -27,7 +27,7 @@ public class CommandInvoker implements CommandRepository {
                 new Add(),
                 new Clear(),
                 new CountLessThanDescription(),
-                new ExecuteScript(),
+                new ExecuteScript(this),
                 new Exit(),
                 new FilterGreaterThanMinimalPoint(),
                 new Help(),
@@ -59,10 +59,6 @@ public class CommandInvoker implements CommandRepository {
             return null;
         }
         Command command = commandMap.get(commandKey);
-        if (command instanceof ExecuteScript) {
-            ExecuteScript scriptCommand = (ExecuteScript) command;
-            scriptCommand.setCommandRepository(this);
-        }
         // Выполняем клиентскую часть
         command.clientExecute(args, clientCommandReceiver);
         // Записываем в историю команд
