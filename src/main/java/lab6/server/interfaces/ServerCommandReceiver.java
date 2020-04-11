@@ -26,4 +26,6 @@ public interface ServerCommandReceiver {
     void sort();
 
     void filterGreaterThanMinimalPoint(int minimalPoint);
+
+    void removeByID(long id);
 }
