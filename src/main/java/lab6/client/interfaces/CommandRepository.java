@@ -1,5 +1,7 @@
 package lab6.client.interfaces;
 
+import lab6.client.commands.Command;
+
 public interface CommandRepository {
-    void runCommand(String commandKey, String[] args);
+    Command runCommand(String commandKey, String[] args);
 }

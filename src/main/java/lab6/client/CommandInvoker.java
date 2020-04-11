@@ -50,17 +50,21 @@ public class CommandInvoker implements CommandRepository {
 
 
     @Override
-    public void runCommand(String commandKey, String[] args) {
+    public Command runCommand(String commandKey, String[] args) {
         if (!commandMap.containsKey(commandKey)) {
             System.out.println("Такой команды не существует. Список комманд: help.");
-            return;
+            return null;
         }
         Command command = commandMap.get(commandKey);
         if (command instanceof ExecuteScript) {
             ExecuteScript scriptCommand = (ExecuteScript) command;
             scriptCommand.setCommandRepository(this);
         }
+        // Выполняем клиентскую часть
         command.clientExecute(args, clientCommandReceiver);
+        // Записываем в историю команд
         clientCommandReceiver.getCommandHistory().add(commandKey);
+        // Возвращаем, чтобы отправить на сервер
+        return command;
     }
 }
