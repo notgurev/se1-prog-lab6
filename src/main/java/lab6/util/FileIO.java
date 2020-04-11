@@ -2,7 +2,6 @@ package lab6.util;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import lab6.server.VectorWrapper;
 import lab6.exceptions.LabWorkFieldException;
 import lab6.server.interfaces.CollectionWrapper;
 
@@ -60,7 +59,7 @@ public class FileIO {
      * @param collection коллекция, которую нужно сохранить
      * @throws IOException если что-то пошло не так при сохранении
      */
-    public static void saveCollectionToFile(String fileName, VectorWrapper collection) throws IOException {
+    public static void saveCollectionToFile(String fileName, CollectionWrapper collection) throws IOException {
         try (BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(fileName))) {
             for (String s : collection.toArray()) {
                 s = s + '\n';
