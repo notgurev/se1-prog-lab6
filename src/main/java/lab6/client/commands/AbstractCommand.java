@@ -18,16 +18,11 @@ public abstract class AbstractCommand implements Command {
 
     @Override
     public String getHelpText() {
-        return null;
+        return helpText;
     }
 
     @Override
     public String getKey() {
-        return null;
-    }
-
-    @Override
-    public boolean isServerSide() {
-        return serverSide;
+        return key;
     }
 }
