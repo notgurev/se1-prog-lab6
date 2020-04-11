@@ -2,20 +2,20 @@ package lab6.client;
 
 import com.google.inject.Inject;
 import lab6.client.interfaces.ClientCommandReceiver;
-import lab6.server.interfaces.CollectionWrapper;
-import lab6.util.BetterStrings;
 import lab6.util.LimitedStack;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Scanner;
 
+import static lab6.util.BetterStrings.coloredYellow;
+
 public class ClientCommandReceiverImpl implements ClientCommandReceiver {
     private final Scanner consoleScanner; // Сканнер для считывания команд из консоли
     private final HashSet<String> executingScripts = new HashSet<>(); // Выполняющиеся в данный момент скрипты
+    private final LimitedStack<String> commandHistory = new LimitedStack<>(13); // История команд (клиент-сайд)
     private Scanner scriptScanner; // Сканнер для считывания содержимого скрипта
     private String helpText;
-    private final LimitedStack<String> commandHistory = new LimitedStack<>(13); // История команд (клиент-сайд)
 
     @Inject
     public ClientCommandReceiverImpl(Scanner consoleScanner) {
@@ -39,7 +39,7 @@ public class ClientCommandReceiverImpl implements ClientCommandReceiver {
 
     @Override
     public void exit() {
-        System.out.println(BetterStrings.coloredYellow("Завершение работы."));
+        System.out.println(coloredYellow("Завершение работы."));
         System.exit(0);
     }
 
@@ -65,6 +65,11 @@ public class ClientCommandReceiverImpl implements ClientCommandReceiver {
 
     @Override
     public void history() {
-        System.out.println(commandHistory);
+        if (commandHistory.isEmpty()) {
+            System.out.println(coloredYellow("История выполненных команд пуста!"));
+        } else {
+            System.out.println("Предыдущие команды (начиная с последней):");
+            commandHistory.forEach(System.out::println);
+        }
     }
 }
