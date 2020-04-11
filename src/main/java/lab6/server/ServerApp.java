@@ -3,7 +3,6 @@ package lab6.server;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import lab6.client.interfaces.CommandReceiver;
 import lab6.server.interfaces.CollectionWrapper;
 import lab6.server.interfaces.Server;
 import lab6.server.interfaces.ServerCommandReceiver;

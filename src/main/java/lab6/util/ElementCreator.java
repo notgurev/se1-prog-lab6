@@ -1,7 +1,6 @@
 package lab6.util;
 
-import lab6.client.CommandManager;
-import lab6.client.interfaces.CommandRepository;
+import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.collection.*;
 import lab6.exceptions.LabWorkFieldException;
 
@@ -107,13 +106,13 @@ public class ElementCreator {
         return ElementCreator.fromStringArray(inter, false);
     }
 
-    public static LabWork buildLabWork(CommandRepository commandRepository) {
-        if (commandRepository.getExecutingScripts().isEmpty()) {
+    public static LabWork buildLabWork(ClientCommandReceiver clientCommandReceiver) {
+        if (clientCommandReceiver.getExecutingScripts().isEmpty()) {
             // Создаем LabWork из консоли
-            return fromConsole(commandRepository.getConsoleScanner());
+            return fromConsole(clientCommandReceiver.getConsoleScanner());
         } else {
             // Создаем LabWork из скрипта
-            return fromScript(commandRepository.getScriptScanner());
+            return fromScript(clientCommandReceiver.getScriptScanner());
         }
     }
 }
