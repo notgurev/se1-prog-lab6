@@ -30,4 +30,6 @@ public interface ServerCommandReceiver {
     void removeByID(long id);
 
     void insertAt(Object carriedObject, int index);
+
+    void update(Object carriedObject, long id);
 }
