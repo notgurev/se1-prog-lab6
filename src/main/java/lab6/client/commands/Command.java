@@ -2,24 +2,29 @@ package lab6.client.commands;
 
 import lab6.client.interfaces.CommandReceiver;
 
-/**
- * Базовый класс команды
- */
-public abstract class Command implements Executable {
-    protected boolean isScriptCalling = false;
-    private String helpText;
-    private String key;
+public interface Command {
+    /**
+     * Метод, выполняемый на сервере
+     *
+     * @param serverReceiver ресивер команд, который передается сервером как аргумент
+     * @param args           аргументы команды
+     */
+    void execute(CommandReceiver serverReceiver, String[] args);
 
-    public Command(String helpText, String key) {
-        this.helpText = helpText;
-        this.key = key;
-    }
+    /**
+     * Метод, выполняемый на клиенте
+     *
+     * @param args           аргументы команды
+     * @param clientReceiver серверный ресивер команд
+     */
+    void clientExecute(String[] args, CommandReceiver clientReceiver);
 
-    public String getHelpText() {
-        return helpText;
-    }
+    /**
+     * @return true, если команду нужно отправить на сервер; false, если не нужно.
+     */
+    boolean isServerSide();
 
-    public String getKey() {
-        return key;
-    }
+    String getHelpText();
+
+    String getKey();
 }
