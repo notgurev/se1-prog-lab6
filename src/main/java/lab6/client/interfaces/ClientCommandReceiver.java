@@ -8,7 +8,7 @@ public interface ClientCommandReceiver {
 
     Scanner getScriptScanner();
 
-    Collection<Object> getExecutingScripts();
+    Collection<String> getExecutingScripts();
 
     void help();
 
