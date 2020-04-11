@@ -4,6 +4,7 @@ import lab6.client.Parser;
 import lab6.client.commands.ScriptCommand;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
+import lab6.client.interfaces.ServerIO;
 import lab6.collection.LabWork;
 import lab6.exceptions.LabWorkFieldException;
 import lab6.exceptions.SelfCallingScriptException;

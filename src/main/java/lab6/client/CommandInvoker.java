@@ -7,6 +7,7 @@ import lab6.client.commands.Command;
 import lab6.client.commands.concrete.*;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
+import lab6.client.interfaces.ServerIO;
 
 import java.util.HashMap;
 
@@ -16,10 +17,12 @@ import static lab6.util.BetterStrings.multiline;
 public class CommandInvoker implements CommandRepository {
     private final HashMap<String, AbstractCommand> commandMap = new HashMap<>(); // HashMap команд
     private final ClientCommandReceiver clientCommandReceiver;
+    private final ServerIO serverIO;
 
     @Inject
-    public CommandInvoker(ClientCommandReceiver clientCommandReceiver) {
+    public CommandInvoker(ClientCommandReceiver clientCommandReceiver, ServerIO serverIO) {
         this.clientCommandReceiver = clientCommandReceiver;
+        this.serverIO = serverIO;
         addCommand(
                 new Add(),
                 new Clear(),

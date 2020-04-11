@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 import lab6.client.interfaces.Client;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
+import lab6.client.interfaces.ServerIO;
 
 import java.util.Scanner;
 
@@ -15,12 +16,14 @@ public class ClientApp implements Client {
     Scanner consoleScanner;
     CommandRepository commandRepository;
     ClientCommandReceiver clientCommandReceiver;
+    ServerIO serverIO;
 
     @Inject
-    public ClientApp(Scanner consoleScanner, CommandRepository commandRepository, ClientCommandReceiver clientCommandReceiver) {
+    public ClientApp(Scanner consoleScanner, CommandRepository commandRepository, ClientCommandReceiver clientCommandReceiver, ServerIO serverIO) {
         this.consoleScanner = consoleScanner;
         this.commandRepository = commandRepository;
         this.clientCommandReceiver = clientCommandReceiver;
+        this.serverIO = serverIO;
     }
 
     public static void main(String[] args) {
