@@ -3,12 +3,14 @@ package lab6.client.commands;
 import lab6.client.interfaces.CommandReceiver;
 
 /**
- * Класс клиентской команды, которая в clientExecute() должна выполнить необходимые действия
- * и вернуть false, чтобы НЕ быть отправленной на сервер.
+ * Клиентская команда.
+ * Не создает объект.
+ * В clientExecute() должна выполнить необходимые действия.
+ * Не отправляется на сервер.
  */
 public abstract class ClientSideCommand extends AbstractCommand {
-    public ClientSideCommand(boolean isScriptCalling, String helpText, String key) {
-        super(isScriptCalling, false, helpText, key);
+    public ClientSideCommand(String helpText, String key) {
+        super(false, false, helpText, key);
     }
 
     @Override
