@@ -14,7 +14,7 @@ public abstract class ClientSideCommand extends AbstractCommand {
     }
 
     @Override
-    public final void serverExecute(ServerCommandReceiver clientCommandReceiver, String[] args) {
+    public final void serverExecute(ServerCommandReceiver clientCommandReceiver) {
         // Здесь ничего нет, так как на сервер команда не отправляется
         // Также метод final, чтобы его нельзя было переопределить
     }

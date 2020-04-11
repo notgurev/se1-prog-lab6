@@ -13,7 +13,7 @@ public abstract class ScriptCommand extends AbstractCommand {
     }
 
     @Override
-    public final void serverExecute(ServerCommandReceiver serverReceiver, String[] args) {
+    public final void serverExecute(ServerCommandReceiver serverReceiver) {
         // empty and final
     }
 }

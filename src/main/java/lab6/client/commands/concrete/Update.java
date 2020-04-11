@@ -13,7 +13,7 @@ public class Update extends ConstructingCommand {
     }
 
     @Override
-    public void serverExecute(ServerCommandReceiver serverReceiver, String[] args) {
+    public void serverExecute(ServerCommandReceiver serverReceiver) {
         serverReceiver.update(carriedObject, id);
     }
 
