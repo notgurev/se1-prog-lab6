@@ -20,10 +20,10 @@ public class BetterStrings {
      * @param s массив строк
      * @return строка с переносами строк
      */
-    public static String multiline(String... s) {
+    public static String multiline(Object... s) {
         StringBuilder finalLine = new StringBuilder();
         for (int i = 0; i < s.length - 1; i++) {
-            finalLine.append(s[i]).append('\n');
+            finalLine.append(s[i].toString()).append('\n');
         }
         finalLine.append(s[s.length - 1]);
         return finalLine.toString();
