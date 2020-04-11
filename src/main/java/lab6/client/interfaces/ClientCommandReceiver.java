@@ -29,4 +29,6 @@ public interface ClientCommandReceiver {
     void sort();
 
     void printUniqueTunedInWorks();
+
+    void countLessThanDescription(String description);
 }
