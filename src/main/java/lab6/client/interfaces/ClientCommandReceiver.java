@@ -9,4 +9,6 @@ public interface ClientCommandReceiver {
     Scanner getScriptScanner();
 
     Collection<Object> getExecutingScripts();
+
+    void add();
 }
