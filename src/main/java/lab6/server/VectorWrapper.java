@@ -1,5 +1,6 @@
 package lab6.server;
 
+import com.google.inject.Singleton;
 import lab6.collection.LabWork;
 import lab6.exceptions.NoElementWithSuchIdException;
 import lab6.server.interfaces.CollectionWrapper;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import static lab6.util.BetterStrings.coloredYellow;
 import static lab6.util.BetterStrings.multiline;
 
+@Singleton
 public class VectorWrapper implements CollectionWrapper {
     private Vector<LabWork> labWorks = new Vector<>();
     private LocalDate initDate;

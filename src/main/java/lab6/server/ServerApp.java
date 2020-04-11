@@ -3,11 +3,13 @@ package lab6.server;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import lab6.server.interfaces.CollectionWrapper;
 import lab6.server.interfaces.Server;
 import lab6.server.interfaces.ServerCommandReceiver;
 import lab6.util.FileIO;
 
+@Singleton
 public class ServerApp implements Server {
     CollectionWrapper collectionWrapper;
     ServerCommandReceiver serverCommandReceiver;

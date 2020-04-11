@@ -1,6 +1,7 @@
 package lab6.client;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import lab6.client.commands.AbstractCommand;
 import lab6.client.commands.Command;
 import lab6.client.commands.concrete.*;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 
 import static lab6.util.BetterStrings.multiline;
 
+@Singleton
 public class CommandInvoker implements CommandRepository {
     private final HashMap<String, AbstractCommand> commandMap = new HashMap<>(); // HashMap команд
     private final ClientCommandReceiver clientCommandReceiver;

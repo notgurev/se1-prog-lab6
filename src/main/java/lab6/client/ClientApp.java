@@ -3,12 +3,14 @@ package lab6.client;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import lab6.client.interfaces.Client;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
 
 import java.util.Scanner;
 
+@Singleton
 public class ClientApp implements Client {
     Scanner consoleScanner;
     CommandRepository commandRepository;
