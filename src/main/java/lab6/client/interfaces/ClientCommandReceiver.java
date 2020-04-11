@@ -19,4 +19,12 @@ public interface ClientCommandReceiver {
     void info();
 
     void history();
+
+    void exit();
+
+    void save();
+
+    void show();
+
+    void sort();
 }
