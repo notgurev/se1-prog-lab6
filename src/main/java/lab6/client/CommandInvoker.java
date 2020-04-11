@@ -36,7 +36,7 @@ public class CommandInvoker implements CommandRepository {
                 new Sort(),
                 new Update()
         );
-        clientCommandReceiver.setHelpText(multiline((String[]) commandMap.values().stream()
+        clientCommandReceiver.setHelpText(multiline(commandMap.values().stream()
                 .map(command -> command.getKey() + command.getHelpText()).toArray()));
     }
 
