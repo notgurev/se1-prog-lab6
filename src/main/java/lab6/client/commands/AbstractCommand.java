@@ -25,4 +25,9 @@ public abstract class AbstractCommand implements Command {
     public String getKey() {
         return key;
     }
+
+    @Override
+    public boolean isServerSide() {
+        return serverSide;
+    }
 }
