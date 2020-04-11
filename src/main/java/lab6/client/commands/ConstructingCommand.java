@@ -8,7 +8,7 @@ package lab6.client.commands;
  * Отправляется на сервер.
  */
 public abstract class ConstructingCommand extends AbstractCommand {
-    private Object carriedObject;
+    protected Object carriedObject;
 
     public ConstructingCommand(String key, String helpText) {
         super(false, true, helpText, key);

@@ -28,4 +28,6 @@ public interface ServerCommandReceiver {
     void filterGreaterThanMinimalPoint(int minimalPoint);
 
     void removeByID(long id);
+
+    void insertAt(Object carriedObject, int index);
 }
