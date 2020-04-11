@@ -68,6 +68,7 @@ public class ExecuteScript extends ScriptCommand {
                             "Где-то в скрипте была попытка создать элемент коллекции, но что-то пошло не так."));
                     linesWithErrors.add(currentLine);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     linesWithErrors.add(currentLine);
                 }
             }
