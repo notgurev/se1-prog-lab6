@@ -27,4 +27,6 @@ public interface ClientCommandReceiver {
     void show();
 
     void sort();
+
+    void printUniqueTunedInWorks();
 }
