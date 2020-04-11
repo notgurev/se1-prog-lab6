@@ -1,6 +1,7 @@
 package lab6.client.commands.concrete;
 
 import lab6.client.Parser;
+import lab6.client.commands.Command;
 import lab6.client.commands.ScriptCommand;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
@@ -22,6 +23,7 @@ import static lab6.util.BetterStrings.coloredYellow;
 
 public class ExecuteScript extends ScriptCommand {
     private CommandRepository commandRepository;
+    private ServerIO serverIO;
 
     public ExecuteScript(CommandRepository commandRepository) {
         super("execute_script", " file_name - считать и исполнить скрипт из указанного файла");
@@ -54,7 +56,8 @@ public class ExecuteScript extends ScriptCommand {
                 currentLine++;
                 line = scanner.nextLine().split(" ");
                 try {
-                    Parser.parseThenRun(line, commandRepository);
+                    Command command = Parser.parseThenRun(line, commandRepository);
+                    serverIO.sendToServer(command);
                     currentLine += LabWork.getNumberOfFields();
                 } catch (SelfCallingScriptException e) {
                     linesWithErrors.add(currentLine);
