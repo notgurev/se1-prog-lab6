@@ -21,9 +21,10 @@ public class ServerCommandReceiverImpl implements ServerCommandReceiver {
     private ClientIO clientIO;
 
     @Inject
-    public ServerCommandReceiverImpl(CollectionWrapper collectionWrapper, String collectionFile) {
+    public ServerCommandReceiverImpl(CollectionWrapper collectionWrapper, String collectionFile, ClientIO clientIO) {
         this.collectionWrapper = collectionWrapper;
         this.collectionFile = collectionFile;
+        this.clientIO = clientIO;
     }
 
     @Override

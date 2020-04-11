@@ -4,6 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import lab6.client.commands.Command;
+import lab6.client.commands.concrete.Show;
 import lab6.server.interfaces.CollectionWrapper;
 import lab6.server.interfaces.Server;
 import lab6.server.interfaces.ServerCommandReceiver;
@@ -36,5 +38,17 @@ public class ServerApp implements Server {
     public void start(String fileName) {
         serverCommandReceiver.setCollectionFile(fileName);
         FileIO.readCollectionFromFile(fileName, collectionWrapper);
+        while (true) {
+            // Принимаем запрос от сервера
+            // Делаем что-то такое
+            Command testCommand = new Show(); // Вместо штуки слева должна быть команда полученная
+            testCommand.serverExecute(serverCommandReceiver);
+            /*
+                По идее MyClientIO должен теперь весь результат работы проги складывать в стринг, потом отправлять
+                сразу весь клиенту. У меня там метод printToClient, что не то. Надо реализовать нормально короче.
+             */
+            // Отправляем собранный стринг клиенту
+            // И по новой.
+        }
     }
 }
