@@ -13,11 +13,11 @@ public class Add extends ConstructingCommand {
 
     @Override
     public void serverExecute(ServerCommandReceiver serverReceiver, String[] args) {
-        serverReceiver.add();
+        serverReceiver.add(carriedObject);
     }
 
     @Override
     public void clientExecute(String[] args, ClientCommandReceiver clientCommandReceiver) {
-        ElementCreator.buildLabWork(clientCommandReceiver);
+        carriedObject = ElementCreator.buildLabWork(clientCommandReceiver);
     }
 }
