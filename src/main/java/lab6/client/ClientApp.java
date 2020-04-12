@@ -42,7 +42,10 @@ public class ClientApp implements Client {
             String[] input = consoleScanner.nextLine().trim().split(" ");
             // Парсинг и выполнение
             Command command = Parser.parseThenRun(input, commandRepository);
-            if (command.isServerSide()) {
+
+            if (command == null) {
+                System.out.println("Такой команды не существует. Список комманд: help.");
+            } else if (command.isServerSide()) {
                 serverIO.sendToServer(command); // TODO
             }
             // Тут видимо принимаем ответ
