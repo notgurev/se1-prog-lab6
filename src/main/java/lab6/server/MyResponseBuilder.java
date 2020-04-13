@@ -1,9 +1,11 @@
 package lab6.server;
 
+import com.google.inject.Singleton;
 import lab6.server.interfaces.ResponseBuilder;
 
+@Singleton
 public class MyResponseBuilder implements ResponseBuilder {
-    String responseLine;
+    private String responseLine;
 
     public MyResponseBuilder() {
         responseLine = ""; // я не помню нужно ли это)))

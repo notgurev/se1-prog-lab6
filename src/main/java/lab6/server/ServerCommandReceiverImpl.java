@@ -2,6 +2,7 @@ package lab6.server;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 import lab6.collection.LabWork;
 import lab6.exceptions.NoElementWithSuchIdException;
 import lab6.server.interfaces.ResponseBuilder;
@@ -21,7 +22,7 @@ public class ServerCommandReceiverImpl implements ServerCommandReceiver {
     private ResponseBuilder responseBuilder;
 
     @Inject
-    public ServerCommandReceiverImpl(CollectionWrapper collectionWrapper, String collectionFile, ResponseBuilder responseBuilder) {
+    public ServerCommandReceiverImpl(CollectionWrapper collectionWrapper, ResponseBuilder responseBuilder, @Assisted String collectionFile) {
         this.collectionWrapper = collectionWrapper;
         this.collectionFile = collectionFile;
         this.responseBuilder = responseBuilder;

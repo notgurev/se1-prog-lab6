@@ -5,22 +5,35 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lab6.client.commands.Command;
+import lab6.server.di.factories.ServerCommandReceiverFactory;
 import lab6.server.interfaces.CollectionWrapper;
 import lab6.server.interfaces.ResponseBuilder;
 import lab6.server.interfaces.Server;
 import lab6.server.interfaces.ServerCommandReceiver;
+import lab6.server.interfaces.ServerConfiguration;
 import lab6.util.FileIO;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 @Singleton
 public class ServerApp implements Server {
-    final CollectionWrapper collectionWrapper;
-    final ServerCommandReceiver serverCommandReceiver;
-    final ResponseBuilder responseBuilder;
+    private CollectionWrapper collectionWrapper;
+    private ServerCommandReceiver serverCommandReceiver;
+    private ResponseBuilder responseBuilder;
+    private ServerConfiguration serverConfiguration;
+    private ServerSocket serverSocket;
+    @Inject private ServerCommandReceiverFactory serverCommandReceiverFactory;
 
     @Inject
-    public ServerApp(CollectionWrapper collectionWrapper, ServerCommandReceiver serverCommandReceiver, ResponseBuilder responseBuilder) {
+    public ServerApp(CollectionWrapper collectionWrapper, ServerConfiguration serverConfig,
+                     ResponseBuilder responseBuilder) {
+        this.serverConfiguration = serverConfig;
         this.collectionWrapper = collectionWrapper;
-        this.serverCommandReceiver = serverCommandReceiver;
         this.responseBuilder = responseBuilder;
     }
 
@@ -31,28 +44,40 @@ public class ServerApp implements Server {
         }
         String fileName = args[0];
         Injector injector = Guice.createInjector(new ServerModule());
+
         Server serverApp = injector.getInstance(Server.class);
-        serverApp.start(fileName);
-    }
-
-
-    @Override
-    public void start(String fileName) {
-        serverCommandReceiver.setCollectionFile(fileName);
-        FileIO.readCollectionFromFile(fileName, collectionWrapper);
-        Command acceptedCommand;
-        while (true) {
-            // Принимаем запрос от клиента
-            acceptedCommand = null; // поставил нулл пока, тут получаем от клиента команду
-            // Выполняем ее
-            acceptedCommand.serverExecute(serverCommandReceiver);
-            // там внутри addLine встречается, они добавляют в ResponseBuilder строки
-            // После выполнения получаем строку и отправляем на клиент
-            sendResponseToClient(responseBuilder.getResponse());
+        try {
+            serverApp.start(fileName);
+        } catch (IOException e) {
+            System.out.println("С сервером что-то пошло не так:\n" + e.getMessage());
         }
     }
 
-    void sendResponseToClient(String response) {
-        // Тут отправляем клиенту ответ
+    @Override
+    public void start(String fileName) throws IOException {
+        this.serverCommandReceiver = serverCommandReceiverFactory.create(fileName);
+        this.serverSocket = new ServerSocket(serverConfiguration.getPort());
+        FileIO.readCollectionFromFile(fileName, collectionWrapper);
+    }
+
+    void sendResponseToClient(String response, BufferedWriter clientWriter) throws IOException {
+        clientWriter.write(response);
+        clientWriter.flush();
+    }
+
+    public void handleRequests() throws IOException {
+        try(Socket clientSocket = serverSocket.accept(); ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
+            BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
+            Command command = (Command) objectInput.readObject();
+            command.serverExecute(serverCommandReceiver);
+
+            sendResponseToClient(responseBuilder.getResponse(), clientWriter);
+
+            System.out.println("A command has been received");
+        } catch (IOException e) {
+            System.out.println("Can not handle request, the reason of that: {}" + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Can not deserialize a requested command: {}" + e.getMessage());
+        }
     }
 }
