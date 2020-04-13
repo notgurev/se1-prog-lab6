@@ -1,7 +1,7 @@
 package lab6.server;
 
 import com.google.inject.AbstractModule;
-import lab6.server.interfaces.ClientIO;
+import lab6.server.interfaces.ResponseBuilder;
 import lab6.server.interfaces.CollectionWrapper;
 import lab6.server.interfaces.Server;
 import lab6.server.interfaces.ServerCommandReceiver;
@@ -12,7 +12,7 @@ public class ServerModule extends AbstractModule {
         bind(Server.class).to(ServerApp.class);
         bind(ServerCommandReceiver.class).to(ServerCommandReceiverImpl.class);
         bind(CollectionWrapper.class).to(VectorWrapper.class);
-        bind(ClientIO.class).to(MyClientIO.class);
+        bind(ResponseBuilder.class).to(MyResponseBuilder.class);
     }
 
 }

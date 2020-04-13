@@ -5,21 +5,23 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lab6.client.commands.Command;
-import lab6.client.commands.concrete.Show;
 import lab6.server.interfaces.CollectionWrapper;
+import lab6.server.interfaces.ResponseBuilder;
 import lab6.server.interfaces.Server;
 import lab6.server.interfaces.ServerCommandReceiver;
 import lab6.util.FileIO;
 
 @Singleton
 public class ServerApp implements Server {
-    CollectionWrapper collectionWrapper;
-    ServerCommandReceiver serverCommandReceiver;
+    final CollectionWrapper collectionWrapper;
+    final ServerCommandReceiver serverCommandReceiver;
+    final ResponseBuilder responseBuilder;
 
     @Inject
-    public ServerApp(CollectionWrapper collectionWrapper, ServerCommandReceiver serverCommandReceiver) {
+    public ServerApp(CollectionWrapper collectionWrapper, ServerCommandReceiver serverCommandReceiver, ResponseBuilder responseBuilder) {
         this.collectionWrapper = collectionWrapper;
         this.serverCommandReceiver = serverCommandReceiver;
+        this.responseBuilder = responseBuilder;
     }
 
     public static void main(String[] args) {
@@ -38,18 +40,19 @@ public class ServerApp implements Server {
     public void start(String fileName) {
         serverCommandReceiver.setCollectionFile(fileName);
         FileIO.readCollectionFromFile(fileName, collectionWrapper);
+        Command acceptedCommand;
         while (true) {
-            // Принимаем запрос от сервера
-            // Делаем что-то такое
-            Command testCommand = new Show(); // Вместо штуки слева должна быть команда полученная
-            testCommand.serverExecute(serverCommandReceiver);
-            // НЕ ЗАПУСКАЙ А ТО ОНО В ЦИКЛЕ
-            /*
-                По идее MyClientIO должен теперь весь результат работы проги складывать в стринг, потом отправлять
-                сразу весь клиенту. У меня там метод printToClient, что не то. Надо реализовать нормально короче.
-             */
-            // Отправляем собранный стринг клиенту
-            // И по новой.
+            // Принимаем запрос от клиента
+            acceptedCommand = null; // поставил нулл пока, тут получаем от клиента команду
+            // Выполняем ее
+            acceptedCommand.serverExecute(serverCommandReceiver);
+            // там внутри addLine встречается, они добавляют в ResponseBuilder строки
+            // После выполнения получаем строку и отправляем на клиент
+            sendResponseToClient(responseBuilder.getResponse());
         }
+    }
+
+    void sendResponseToClient(String response) {
+        // Тут отправляем клиенту ответ
     }
 }
