@@ -25,7 +25,8 @@ public class ServerApp implements Server {
     private ResponseBuilder responseBuilder;
     private ServerConfiguration serverConfiguration;
     private ServerSocket serverSocket;
-    @Inject private ServerCommandReceiverFactory serverCommandReceiverFactory;
+    @Inject
+    private ServerCommandReceiverFactory serverCommandReceiverFactory;
 
     @Inject
     public ServerApp(CollectionWrapper collectionWrapper, ServerConfiguration serverConfig,
@@ -59,7 +60,9 @@ public class ServerApp implements Server {
         handleRequests();
     }
 
-    @Provides @Singleton @Named("serverCommandReceiverImpl")
+    @Provides
+    @Singleton
+    @Named("serverCommandReceiverImpl")
     public ServerCommandReceiver createServerCommandReceiver(String fileName) {
         return serverCommandReceiverFactory.create(fileName);
     }
@@ -70,18 +73,20 @@ public class ServerApp implements Server {
     }
 
     public void handleRequests() {
-        try(Socket clientSocket = serverSocket.accept(); ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
-            BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
-            Command command = (Command) objectInput.readObject();
-            command.serverExecute(serverCommandReceiver);
+        while (true) {
+            try (Socket clientSocket = serverSocket.accept(); ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
+                 BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
+                Command command = (Command) objectInput.readObject();
+                command.serverExecute(serverCommandReceiver);
 
-            sendResponseToClient(responseBuilder.getResponse(), clientWriter);
+                sendResponseToClient(responseBuilder.getResponse(), clientWriter);
 
-            System.out.println("A command has been received");
-        } catch (IOException e) {
-            System.out.println("Can not handle request, the reason of that: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Can not deserialize a requested command: {}" + e.getMessage());
+                System.out.println("A command has been received");
+            } catch (IOException e) {
+                System.out.println("Can not handle request, the reason of that: " + e.getMessage());
+            } catch (ClassNotFoundException e) {
+                System.out.println("Can not deserialize a requested command: {}" + e.getMessage());
+            }
         }
     }
 }
