@@ -4,6 +4,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import lab6.exceptions.LabWorkFieldException;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ import static lab6.util.BetterStrings.multiline;
 /**
  * Класс лабораторной работы (элемента коллекции)
  */
-public class LabWork implements Comparable<LabWork> {
+public class LabWork implements Comparable<LabWork>, Serializable {
     private static final int NUMBER_OF_FIELDS = 14;
     private Long id; // > 0, unique, auto-gen, not null
     private String name; // not null

@@ -2,12 +2,14 @@ package lab6.collection;
 
 import lab6.exceptions.LabWorkFieldException;
 
+import java.io.Serializable;
+
 import static lab6.util.BetterStrings.*;
 
 /**
  * Класс человека-автора лаб. работы
  */
-public class Person {
+public class Person implements Serializable {
     private String name; // not empty, not null
     private Float height; // > 0, null
     private String passportID; // length >= 9, not null

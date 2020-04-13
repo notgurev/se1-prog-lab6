@@ -10,6 +10,7 @@ import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
 import lab6.client.interfaces.ServerIO;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 @Singleton
@@ -36,6 +37,12 @@ public class ClientApp implements Client {
     @Override
     public void start() {
         System.out.println(" ~ Начало работы клиента ~ ");
+        try {
+            serverIO.open();
+        } catch (IOException e) {
+            System.out.println("Не получилось открыть соединение: " + e.getMessage());
+        }
+
         while (true) {
             System.out.print(">> ");
             // Считывание
@@ -46,7 +53,18 @@ public class ClientApp implements Client {
             if (command == null) {
                 System.out.println("Такой команды не существует. Список комманд: help.");
             } else if (command.isServerSide()) {
-                serverIO.sendToServer(command); // TODO
+                try {
+                    serverIO.sendToServer(command); // TODO
+                } catch (IOException e) {
+                    System.out.println("Не получилось отправить команду: " + e.getMessage());
+                }
+
+                try {
+                    String result = serverIO.receiveFromServer();
+                    System.out.println("Получен результат команды:\n" + result);
+                } catch (IOException e) {
+                    System.out.println("При получении ответа возникла ошибка: " + e.getMessage());
+                }
             }
             // Тут видимо принимаем ответ
             // и по новой

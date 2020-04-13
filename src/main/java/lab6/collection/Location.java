@@ -1,11 +1,13 @@
 package lab6.collection;
 
+import java.io.Serializable;
+
 import static lab6.util.BetterStrings.multiline;
 
 /**
  * Класс местоположения Person
  */
-public class Location {
+public class Location implements Serializable {
     private Integer x; // not null
     private float y; // not null
     private Integer z; // not null

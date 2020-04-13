@@ -1,12 +1,14 @@
 package lab6.collection;
 
 
+import java.io.Serializable;
+
 import static lab6.util.BetterStrings.*;
 
 /**
  * Класс координат лаб. работы (?)
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
     private long x; // max = 625
     private Float y; // not null
 

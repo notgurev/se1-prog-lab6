@@ -3,6 +3,7 @@ package lab6.server;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import lab6.collection.LabWork;
 import lab6.exceptions.NoElementWithSuchIdException;
 import lab6.server.interfaces.ResponseBuilder;
@@ -15,14 +16,13 @@ import java.io.IOException;
 import static lab6.util.BetterStrings.*;
 import static lab6.util.BetterStrings.coloredYellow;
 
-@Singleton
 public class ServerCommandReceiverImpl implements ServerCommandReceiver {
     private CollectionWrapper collectionWrapper;
     private String collectionFile;
     private ResponseBuilder responseBuilder;
 
     @Inject
-    public ServerCommandReceiverImpl(CollectionWrapper collectionWrapper, ResponseBuilder responseBuilder, @Assisted String collectionFile) {
+    public ServerCommandReceiverImpl(@Assisted String collectionFile, CollectionWrapper collectionWrapper, ResponseBuilder responseBuilder) {
         this.collectionWrapper = collectionWrapper;
         this.collectionFile = collectionFile;
         this.responseBuilder = responseBuilder;

@@ -1,9 +1,7 @@
 package lab6.server;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
+import com.google.inject.*;
+import com.google.inject.name.Named;
 import lab6.client.commands.Command;
 import lab6.server.di.factories.ServerCommandReceiverFactory;
 import lab6.server.interfaces.CollectionWrapper;
@@ -55,9 +53,15 @@ public class ServerApp implements Server {
 
     @Override
     public void start(String fileName) throws IOException {
-        this.serverCommandReceiver = serverCommandReceiverFactory.create(fileName);
+        this.serverCommandReceiver = createServerCommandReceiver(fileName);
         this.serverSocket = new ServerSocket(serverConfiguration.getPort());
         FileIO.readCollectionFromFile(fileName, collectionWrapper);
+        handleRequests();
+    }
+
+    @Provides @Singleton @Named("serverCommandReceiverImpl")
+    public ServerCommandReceiver createServerCommandReceiver(String fileName) {
+        return serverCommandReceiverFactory.create(fileName);
     }
 
     void sendResponseToClient(String response, BufferedWriter clientWriter) throws IOException {
@@ -65,7 +69,7 @@ public class ServerApp implements Server {
         clientWriter.flush();
     }
 
-    public void handleRequests() throws IOException {
+    public void handleRequests() {
         try(Socket clientSocket = serverSocket.accept(); ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
             BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
             Command command = (Command) objectInput.readObject();
@@ -75,7 +79,7 @@ public class ServerApp implements Server {
 
             System.out.println("A command has been received");
         } catch (IOException e) {
-            System.out.println("Can not handle request, the reason of that: {}" + e.getMessage());
+            System.out.println("Can not handle request, the reason of that: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             System.out.println("Can not deserialize a requested command: {}" + e.getMessage());
         }
