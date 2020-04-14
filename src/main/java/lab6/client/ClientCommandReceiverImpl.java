@@ -3,7 +3,7 @@ package lab6.client;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lab6.client.interfaces.ClientCommandReceiver;
-import lab6.util.LimitedStack;
+import lab6.util.LimitedLinkedList;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import static lab6.util.BetterStrings.coloredYellow;
 public class ClientCommandReceiverImpl implements ClientCommandReceiver {
     private final Scanner consoleScanner; // Сканнер для считывания команд из консоли
     private final HashSet<String> executingScripts = new HashSet<>(); // Выполняющиеся в данный момент скрипты
-    private final LimitedStack<String> commandHistory = new LimitedStack<>(13); // История команд (клиент-сайд)
+    private final LimitedLinkedList<String> commandHistory = new LimitedLinkedList<>(13); // История команд (клиент-сайд)
     private Scanner scriptScanner; // Сканнер для считывания содержимого скрипта
     private String helpText;
 
@@ -56,7 +56,7 @@ public class ClientCommandReceiverImpl implements ClientCommandReceiver {
     }
 
     @Override
-    public LimitedStack<String> getCommandHistory() {
+    public LimitedLinkedList<String> getCommandHistory() {
         return commandHistory;
     }
 

@@ -7,10 +7,10 @@ import java.util.LinkedList;
  *
  * @param <E> хранимый тип данных
  */
-public class LimitedStack<E> extends LinkedList<E> {
+public class LimitedLinkedList<E> extends LinkedList<E> {
     private int sizeLimit;
 
-    public LimitedStack(int sizeLimit) {
+    public LimitedLinkedList(int sizeLimit) {
         this.sizeLimit = sizeLimit;
     }
 

@@ -1,6 +1,6 @@
 package lab6.client.interfaces;
 
-import lab6.util.LimitedStack;
+import lab6.util.LimitedLinkedList;
 
 import java.util.Collection;
 import java.util.Scanner;
@@ -22,5 +22,5 @@ public interface ClientCommandReceiver {
 
     void setHelpText(String helpText);
 
-    LimitedStack<String> getCommandHistory();
+    LimitedLinkedList<String> getCommandHistory();
 }
