@@ -4,17 +4,10 @@ import com.google.inject.*;
 import com.google.inject.name.Named;
 import lab6.client.commands.Command;
 import lab6.server.di.factories.ServerCommandReceiverFactory;
-import lab6.server.interfaces.CollectionWrapper;
-import lab6.server.interfaces.ResponseBuilder;
-import lab6.server.interfaces.Server;
-import lab6.server.interfaces.ServerCommandReceiver;
-import lab6.server.interfaces.ServerConfiguration;
+import lab6.server.interfaces.*;
 import lab6.util.FileIO;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -27,6 +20,8 @@ public class ServerApp implements Server {
     private ServerSocket serverSocket;
     @Inject
     private ServerCommandReceiverFactory serverCommandReceiverFactory;
+    @Inject
+    private EOTWrapper eotWrapper;
 
     @Inject
     public ServerApp(CollectionWrapper collectionWrapper, ServerConfiguration serverConfig,
@@ -74,14 +69,21 @@ public class ServerApp implements Server {
 
     public void handleRequests() {
         while (true) {
-            try (Socket clientSocket = serverSocket.accept(); ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
+            try (Socket clientSocket = serverSocket.accept();
                  BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
-                Command command = (Command) objectInput.readObject();
-                command.serverExecute(serverCommandReceiver);
+                Command command;
 
-                sendResponseToClient(responseBuilder.getResponse(), clientWriter);
+                InputStream clientInputStream = clientSocket.getInputStream();
+                ObjectInputStream objectInput = new ObjectInputStream(clientInputStream);
 
-                System.out.println("A command has been received");
+                while (true) {
+                    command = (Command) objectInput.readObject();
+                    command.serverExecute(serverCommandReceiver);
+                    sendResponseToClient(eotWrapper.wrap(responseBuilder.getResponse()), clientWriter);
+                    System.out.println("A command has been received");
+                    objectInput = new ObjectInputStream(clientInputStream);
+                }
+
             } catch (IOException e) {
                 System.out.println("Can not handle request, the reason of that: " + e.getMessage());
             } catch (ClassNotFoundException e) {
