@@ -46,23 +46,9 @@ public class ClientApp implements Client {
             Command command = Parser.parseThenRun(input, commandRepository);
 
             if (command == null) System.out.println("Такой команды не существует. Список комманд: help.");
-            else if (command.isServerSide()) {
-                try {
-                    if (!serverIO.isOpen()) {
-                        serverIO.open();
-                    }
-                    serverIO.sendToServer(command);
-                } catch (IOException e) {
-                    System.out.println(coloredRed("Не получилось отправить команду: " + e.getMessage()));
-                }
-
-                try {
-                    String result = serverIO.receiveFromServer();
-                    System.out.println("Получен результат команды:\n" + result);
-                } catch (IOException e) {
-                    System.out.println(coloredRed("При получении ответа возникла ошибка: " + e.getMessage()));
-                }
-            }
+            else serverIO.sendAndReceive(command);
         }
     }
+
+
 }

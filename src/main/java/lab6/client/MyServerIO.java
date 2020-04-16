@@ -20,8 +20,8 @@ import static lab6.util.BetterStrings.coloredYellow;
 @Singleton
 public class MyServerIO implements ServerIO {
     private final int DEFAULT_BUFFER_CAPACITY = 1024;
-    private SocketChannel socketChannel;
     private final ConnectionConfiguration connectionConfiguration;
+    private SocketChannel socketChannel;
     private ByteBuffer byteBuffer = ByteBuffer.allocate(DEFAULT_BUFFER_CAPACITY);
     @Inject
     private EOTWrapper eotWrapper;
@@ -46,18 +46,18 @@ public class MyServerIO implements ServerIO {
         }
     }
 
-    public boolean isOpen() {
+    private boolean isOpen() {
         return socketChannel.isOpen();
     }
 
-    public ByteBuffer getByteBuffer() {
+    private ByteBuffer getByteBuffer() {
         if (byteBuffer == null) {
             byteBuffer = ByteBuffer.allocate(DEFAULT_BUFFER_CAPACITY);
         }
         return byteBuffer;
     }
 
-    public ByteBuffer getByteBuffer(int capacity) {
+    private ByteBuffer getByteBuffer(int capacity) {
         if (byteBuffer == null || byteBuffer.capacity() != capacity) {
             byteBuffer = ByteBuffer.allocate(capacity);
         }
@@ -65,9 +65,7 @@ public class MyServerIO implements ServerIO {
         return byteBuffer;
     }
 
-
-    @Override
-    public void sendToServer(Command command) throws IOException {
+    private void sendToServer(Command command) throws IOException {
         ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteArrayStream);
 
@@ -85,7 +83,7 @@ public class MyServerIO implements ServerIO {
         System.out.println("Команда отправлена");
     }
 
-    public String receiveFromServer() throws IOException {
+    private String receiveFromServer() throws IOException {
         ByteBuffer buffer = getByteBuffer();
         buffer.clear();
         StringBuilder stringBuilder = new StringBuilder();
@@ -101,5 +99,24 @@ public class MyServerIO implements ServerIO {
         }
 
         return eotWrapper.unwrap(stringBuilder.toString());
+    }
+
+    @Override
+    public void sendAndReceive(Command command) {
+        if (command.isServerSide()) {
+            try {
+                if (!isOpen()) open();
+                sendToServer(command);
+            } catch (IOException e) {
+                System.out.println(coloredRed("Не получилось отправить команду: " + e.getMessage()));
+            }
+
+            try {
+                String result = receiveFromServer();
+                System.out.println("Получен результат команды:\n" + result);
+            } catch (IOException e) {
+                System.out.println(coloredRed("При получении ответа возникла ошибка: " + e.getMessage()));
+            }
+        }
     }
 }

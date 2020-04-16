@@ -53,7 +53,7 @@ public class ExecuteScript extends ScriptCommand {
                 line = scanner.nextLine().split(" ");
                 try {
                     Command command = Parser.parseThenRun(line, commandRepository);
-                    commandRepository.getServerIO().sendToServer(command);
+                    commandRepository.getServerIO().sendAndReceive(command);
                     currentLine += LabWork.getNumberOfFields();
                 } catch (SelfCallingScriptException e) {
                     linesWithErrors.add(currentLine);
