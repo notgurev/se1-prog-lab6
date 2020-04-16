@@ -54,7 +54,7 @@ public class ClientApp implements Client {
                 System.out.println("Такой команды не существует. Список комманд: help.");
             } else if (command.isServerSide()) {
                 try {
-                    serverIO.sendToServer(command); // TODO
+                    serverIO.sendToServer(command);
                 } catch (IOException e) {
                     System.out.println("Не получилось отправить команду: " + e.getMessage());
                 }
@@ -66,8 +66,6 @@ public class ClientApp implements Client {
                     System.out.println("При получении ответа возникла ошибка: " + e.getMessage());
                 }
             }
-            // Тут видимо принимаем ответ
-            // и по новой
         }
     }
 }
