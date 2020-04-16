@@ -10,7 +10,6 @@ public class Help extends ClientSideCommand {
 
     @Override
     public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
-        // TODO инвалидская хрень, так как по идее это должен делать CommandRepository
         clientReceiver.help();
     }
 }

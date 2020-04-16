@@ -23,9 +23,6 @@ public class InsertAt extends ConstructingCommand {
             index = Integer.parseInt(args[0]);
             carriedObject = ElementCreator.buildLabWork(clientReceiver);
         } catch (NumberFormatException e) {
-            // Если не скрипт, то обрабатываем ошибку и выводим в консоль
-            // Если скрипт, то передаем ошибку выше
-            // TODO boolean false при ошибке
             if (clientReceiver.getExecutingScripts().isEmpty())
                 System.out.println("Введите корректный положительный целочисленный индекс!");
             else throw new NumberFormatException();

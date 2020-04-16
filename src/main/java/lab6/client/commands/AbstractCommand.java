@@ -4,9 +4,9 @@ package lab6.client.commands;
  * Базовый класс команды
  */
 public abstract class AbstractCommand implements Command {
-    private final boolean serverSide;
-    private final String helpText;
-    private final String key;
+    private final transient boolean  serverSide;
+    private final transient String helpText;
+    private final transient String key;
 
     public AbstractCommand(boolean serverSide, String helpText, String key) {
         this.serverSide = serverSide;
