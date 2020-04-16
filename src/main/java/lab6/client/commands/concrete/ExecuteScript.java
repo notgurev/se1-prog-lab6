@@ -2,6 +2,7 @@ package lab6.client.commands.concrete;
 
 import lab6.client.Parser;
 import lab6.client.commands.Command;
+import lab6.client.commands.ConstructingCommand;
 import lab6.client.commands.ScriptCommand;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
@@ -54,7 +55,7 @@ public class ExecuteScript extends ScriptCommand {
                 try {
                     Command command = Parser.parseThenRun(line, commandRepository);
                     commandRepository.getServerIO().sendAndReceive(command);
-                    currentLine += LabWork.getNumberOfFields();
+                    if (command instanceof ConstructingCommand) currentLine += LabWork.getNumberOfFields();
                 } catch (SelfCallingScriptException e) {
                     linesWithErrors.add(currentLine);
                     System.out.println(coloredRed("В скрипте (строка "
