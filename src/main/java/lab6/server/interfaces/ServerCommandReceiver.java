@@ -3,8 +3,6 @@ package lab6.server.interfaces;
 import lab6.collection.LabWork;
 
 public interface ServerCommandReceiver {
-    void setCollectionFile(String fileName);
-
     void add(LabWork labWork);
 
     void clear();

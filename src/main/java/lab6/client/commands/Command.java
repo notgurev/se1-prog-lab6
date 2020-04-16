@@ -8,8 +8,8 @@ import java.io.Serializable;
 public interface Command extends Serializable {
     /**
      * Метод, выполняемый на сервере
-     * @param serverReceiver ресивер команд, который передается сервером как аргумент
      *
+     * @param serverReceiver ресивер команд, который передается сервером как аргумент
      */
     void serverExecute(ServerCommandReceiver serverReceiver);
 

@@ -19,14 +19,12 @@ import static lab6.util.BetterStrings.coloredYellow;
 
 @Singleton
 public class MyServerIO implements ServerIO {
+    private final int DEFAULT_BUFFER_CAPACITY = 1024;
     private SocketChannel socketChannel;
-    private ConnectionConfiguration connectionConfiguration;
-    private int noDataWrittenLimit = 512;
-    private ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+    private final ConnectionConfiguration connectionConfiguration;
+    private ByteBuffer byteBuffer = ByteBuffer.allocate(DEFAULT_BUFFER_CAPACITY);
     @Inject
     private EOTWrapper eotWrapper;
-    private ByteArrayOutputStream byteArrayStream;
-    private ObjectOutputStream objectStream;
 
     @Inject
     public MyServerIO(ConnectionConfiguration config) {
@@ -54,9 +52,8 @@ public class MyServerIO implements ServerIO {
 
     public ByteBuffer getByteBuffer() {
         if (byteBuffer == null) {
-            byteBuffer = ByteBuffer.allocate(1024);
+            byteBuffer = ByteBuffer.allocate(DEFAULT_BUFFER_CAPACITY);
         }
-
         return byteBuffer;
     }
 
@@ -71,13 +68,13 @@ public class MyServerIO implements ServerIO {
 
     @Override
     public void sendToServer(Command command) throws IOException {
-        byteArrayStream = new ByteArrayOutputStream();
-        objectStream = new ObjectOutputStream(byteArrayStream);
+        ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectStream = new ObjectOutputStream(byteArrayStream);
 
         System.out.println("Команда готовится к отправке: " + command.getClass().getSimpleName());
         objectStream.writeObject(command);
         byte[] byteArray = byteArrayStream.toByteArray();
-        ByteBuffer buffer = this.getByteBuffer(byteArray.length);
+        ByteBuffer buffer = getByteBuffer(byteArray.length);
         buffer.clear();
 
         buffer.put(byteArray);
@@ -89,7 +86,7 @@ public class MyServerIO implements ServerIO {
     }
 
     public String receiveFromServer() throws IOException {
-        ByteBuffer buffer = this.getByteBuffer();
+        ByteBuffer buffer = getByteBuffer();
         buffer.clear();
         StringBuilder stringBuilder = new StringBuilder();
         byte[] readBytes;

@@ -5,13 +5,14 @@ import lab6.server.interfaces.EOTWrapper;
 
 @Singleton
 public class UtfEOTWrapper implements EOTWrapper {
-    private char EOTSymbol = '\u0004';
+    private final char EOT_SYMBOL = '\u0004';
 
     @Override
     public String wrap(String s) {
-        return s += String.valueOf(EOTSymbol);
+        return s + EOT_SYMBOL;
     }
 
+    @Override
     public String unwrap(String s) {
         if (hasEOTSymbol(s)) {
             return s.substring(0, s.length() - 1);
@@ -21,6 +22,6 @@ public class UtfEOTWrapper implements EOTWrapper {
 
     @Override
     public boolean hasEOTSymbol(String s) {
-        return s.length() > 0 && s.charAt(s.length() - 1) == EOTSymbol;
+        return s.length() > 0 && s.charAt(s.length() - 1) == EOT_SYMBOL;
     }
 }

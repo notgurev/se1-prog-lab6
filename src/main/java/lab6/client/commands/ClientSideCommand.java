@@ -10,12 +10,11 @@ import lab6.server.interfaces.ServerCommandReceiver;
  */
 public abstract class ClientSideCommand extends AbstractCommand {
     public ClientSideCommand(String key, String helpText) {
-        super(false, false, helpText, key);
+        super(false, helpText, key);
     }
 
     @Override
     public final void serverExecute(ServerCommandReceiver clientCommandReceiver) {
-        // Здесь ничего нет, так как на сервер команда не отправляется
-        // Также метод final, чтобы его нельзя было переопределить
+        // final and empty
     }
 }

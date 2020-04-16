@@ -3,7 +3,6 @@ package lab6.server;
 import com.google.inject.*;
 import com.google.inject.name.Named;
 import lab6.client.commands.Command;
-import lab6.server.di.factories.ServerCommandReceiverFactory;
 import lab6.server.interfaces.*;
 import lab6.util.FileIO;
 

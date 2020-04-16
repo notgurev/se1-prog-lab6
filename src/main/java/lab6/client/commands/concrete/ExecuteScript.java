@@ -5,7 +5,6 @@ import lab6.client.commands.Command;
 import lab6.client.commands.ScriptCommand;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
-import lab6.client.interfaces.ServerIO;
 import lab6.collection.LabWork;
 import lab6.exceptions.LabWorkFieldException;
 import lab6.exceptions.SelfCallingScriptException;
@@ -39,9 +38,7 @@ public class ExecuteScript extends ScriptCommand {
         String scriptFileName = args[0];
 
         // Проверка на рекурсивный скрипт
-        if (clientReceiver.getExecutingScripts().contains(scriptFileName)) {
-            throw new SelfCallingScriptException();
-        }
+        if (clientReceiver.getExecutingScripts().contains(scriptFileName)) throw new SelfCallingScriptException();
 
         try (FileReader fileReader = new FileReader(scriptFileName); Scanner scanner = new Scanner(fileReader)) {
             // Добавляем имя скрипта в массив выполняющихся скриптов

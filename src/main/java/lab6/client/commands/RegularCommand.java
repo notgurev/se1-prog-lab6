@@ -9,6 +9,6 @@ package lab6.client.commands;
  */
 public abstract class RegularCommand extends AbstractCommand {
     public RegularCommand(String key, String helpText) {
-        super(false, true, helpText, key);
+        super(true, helpText, key);
     }
 }

@@ -9,6 +9,7 @@ import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
 import lab6.client.interfaces.ServerIO;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static lab6.util.BetterStrings.multiline;
@@ -46,9 +47,7 @@ public class CommandInvoker implements CommandRepository {
     }
 
     private void addCommand(AbstractCommand... commands) {
-        for (AbstractCommand command : commands) {
-            commandMap.put(command.getKey(), command);
-        }
+        Arrays.stream(commands).forEach(command -> commandMap.put(command.getKey(), command));
     }
 
 
@@ -59,15 +58,10 @@ public class CommandInvoker implements CommandRepository {
 
     @Override
     public Command runCommand(String commandKey, String[] args) {
-        if (!commandMap.containsKey(commandKey)) {
-            return null;
-        }
+        if (!commandMap.containsKey(commandKey)) return null;
         Command command = commandMap.get(commandKey);
-        // Выполняем клиентскую часть
-        command.clientExecute(args, clientCommandReceiver);
-        // Записываем в историю команд
-        clientCommandReceiver.getCommandHistory().add(commandKey);
-        // Возвращаем, чтобы отправить на сервер
-        return command;
+        command.clientExecute(args, clientCommandReceiver); // Выполняем клиентскую часть
+        clientCommandReceiver.getCommandHistory().add(commandKey); // Записываем в историю команд
+        return command; // Возвращаем, чтобы отправить на сервер
     }
 }

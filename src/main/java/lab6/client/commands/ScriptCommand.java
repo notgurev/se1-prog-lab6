@@ -9,7 +9,7 @@ import lab6.server.interfaces.ServerCommandReceiver;
  */
 public abstract class ScriptCommand extends AbstractCommand {
     public ScriptCommand(String key, String helpText) {
-        super(true, false, helpText, key);
+        super(false, helpText, key);
     }
 
     @Override

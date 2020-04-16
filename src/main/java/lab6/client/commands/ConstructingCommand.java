@@ -13,6 +13,6 @@ public abstract class ConstructingCommand extends AbstractCommand {
     protected LabWork carriedObject;
 
     public ConstructingCommand(String key, String helpText) {
-        super(false, true, helpText, key);
+        super(true, helpText, key);
     }
 }

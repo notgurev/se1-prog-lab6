@@ -5,11 +5,7 @@ import lab6.server.interfaces.ResponseBuilder;
 
 @Singleton
 public class MyResponseBuilder implements ResponseBuilder {
-    private String responseLine;
-
-    public MyResponseBuilder() {
-        responseLine = ""; // я не помню нужно ли это)))
-    }
+    private String responseLine = "";
 
     @Override
     public void addLineToResponse(String s) {

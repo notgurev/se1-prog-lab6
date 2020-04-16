@@ -1,11 +1,11 @@
-package lab6.server.configs;
+package lab6.server.config;
 
 import lab6.server.interfaces.ServerConfiguration;
 
 public class TestServerConfig implements ServerConfiguration {
-  private int PORT = 3001;
+    private final int PORT = 3001;
 
-  public int getPort() {
-    return PORT;
-  }
+    public int getPort() {
+        return PORT;
+    }
 }

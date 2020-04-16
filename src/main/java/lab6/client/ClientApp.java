@@ -9,12 +9,11 @@ import lab6.client.interfaces.Client;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
 import lab6.client.interfaces.ServerIO;
-import lab6.util.BetterStrings;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-import static lab6.util.BetterStrings.*;
+import static lab6.util.BetterStrings.coloredRed;
 import static lab6.util.BetterStrings.coloredYellow;
 
 @Singleton
@@ -45,14 +44,12 @@ public class ClientApp implements Client {
 
         while (true) {
             System.out.print(">> ");
-            // Считывание
+
             String[] input = consoleScanner.nextLine().trim().split(" ");
-            // Парсинг и выполнение
             Command command = Parser.parseThenRun(input, commandRepository);
 
-            if (command == null) {
-                System.out.println("Такой команды не существует. Список комманд: help.");
-            } else if (command.isServerSide()) {
+            if (command == null) System.out.println("Такой команды не существует. Список комманд: help.");
+            else if (command.isServerSide()) {
                 try {
                     if (!serverIO.isOpen()) {
                         serverIO.open();

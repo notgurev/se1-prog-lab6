@@ -1,20 +1,17 @@
 package lab6.server;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import lab6.collection.LabWork;
 import lab6.exceptions.NoElementWithSuchIdException;
-import lab6.server.interfaces.ResponseBuilder;
 import lab6.server.interfaces.CollectionWrapper;
+import lab6.server.interfaces.ResponseBuilder;
 import lab6.server.interfaces.ServerCommandReceiver;
 import lab6.util.FileIO;
 
 import java.io.IOException;
 
 import static lab6.util.BetterStrings.*;
-import static lab6.util.BetterStrings.coloredYellow;
 
 public class ServerCommandReceiverImpl implements ServerCommandReceiver {
     private CollectionWrapper collectionWrapper;
@@ -26,11 +23,6 @@ public class ServerCommandReceiverImpl implements ServerCommandReceiver {
         this.collectionWrapper = collectionWrapper;
         this.collectionFile = collectionFile;
         this.responseBuilder = responseBuilder;
-    }
-
-    @Override
-    public void setCollectionFile(String collectionFile) {
-        this.collectionFile = collectionFile;
     }
 
     @Override
