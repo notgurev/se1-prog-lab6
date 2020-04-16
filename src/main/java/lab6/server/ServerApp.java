@@ -12,10 +12,10 @@ import java.net.Socket;
 
 @Singleton
 public class ServerApp implements Server {
-    private CollectionWrapper collectionWrapper;
+    private final CollectionWrapper collectionWrapper;
+    private final ResponseBuilder responseBuilder;
+    private final ServerConfiguration serverConfiguration;
     private ServerCommandReceiver serverCommandReceiver;
-    private ResponseBuilder responseBuilder;
-    private ServerConfiguration serverConfiguration;
     private ServerSocket serverSocket;
     @Inject
     private ServerCommandReceiverFactory serverCommandReceiverFactory;
