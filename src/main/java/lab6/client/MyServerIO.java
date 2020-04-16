@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.Arrays;
+
+import static lab6.util.BetterStrings.coloredRed;
+import static lab6.util.BetterStrings.coloredYellow;
 
 @Singleton
 public class MyServerIO implements ServerIO {
@@ -33,13 +33,23 @@ public class MyServerIO implements ServerIO {
         this.connectionConfiguration = config;
     }
 
-    public void open() throws IOException {
-        socketChannel = SocketChannel.open();
-        socketChannel.connect(new InetSocketAddress(
-                connectionConfiguration.getHost(),
-                connectionConfiguration.getPort()
-        ));
-        socketChannel.configureBlocking(false);
+    public void open() {
+        System.out.println("Попытка соединиться с сервером...");
+        try {
+            socketChannel = SocketChannel.open();
+            socketChannel.connect(new InetSocketAddress(
+                    connectionConfiguration.getHost(),
+                    connectionConfiguration.getPort()
+            ));
+            socketChannel.configureBlocking(false);
+            System.out.println(coloredYellow("Соединение с сервером успешно установлено"));
+        } catch (IOException e) {
+            System.out.println(coloredRed("Не получилось открыть соединение: " + e.getMessage()));
+        }
+    }
+
+    public boolean isOpen() {
+        return socketChannel.isOpen();
     }
 
     public ByteBuffer getByteBuffer() {

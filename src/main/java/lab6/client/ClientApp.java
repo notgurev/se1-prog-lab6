@@ -9,9 +9,13 @@ import lab6.client.interfaces.Client;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
 import lab6.client.interfaces.ServerIO;
+import lab6.util.BetterStrings;
 
 import java.io.IOException;
 import java.util.Scanner;
+
+import static lab6.util.BetterStrings.*;
+import static lab6.util.BetterStrings.coloredYellow;
 
 @Singleton
 public class ClientApp implements Client {
@@ -36,12 +40,8 @@ public class ClientApp implements Client {
 
     @Override
     public void start() {
-        System.out.println(" ~ Начало работы клиента ~ ");
-        try {
-            serverIO.open();
-        } catch (IOException e) {
-            System.out.println("Не получилось открыть соединение: " + e.getMessage());
-        }
+        System.out.println(coloredYellow(" ~ Начало работы клиента ~ "));
+        serverIO.open();
 
         while (true) {
             System.out.print(">> ");
@@ -54,16 +54,19 @@ public class ClientApp implements Client {
                 System.out.println("Такой команды не существует. Список комманд: help.");
             } else if (command.isServerSide()) {
                 try {
+                    if (!serverIO.isOpen()) {
+                        serverIO.open();
+                    }
                     serverIO.sendToServer(command);
                 } catch (IOException e) {
-                    System.out.println("Не получилось отправить команду: " + e.getMessage());
+                    System.out.println(coloredRed("Не получилось отправить команду: " + e.getMessage()));
                 }
 
                 try {
                     String result = serverIO.receiveFromServer();
                     System.out.println("Получен результат команды:\n" + result);
                 } catch (IOException e) {
-                    System.out.println("При получении ответа возникла ошибка: " + e.getMessage());
+                    System.out.println(coloredRed("При получении ответа возникла ошибка: " + e.getMessage()));
                 }
             }
         }
