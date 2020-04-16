@@ -80,7 +80,8 @@ public class ServerApp implements Server {
                     command = (Command) objectInput.readObject();
                     command.serverExecute(serverCommandReceiver);
                     sendResponseToClient(eotWrapper.wrap(responseBuilder.getResponse()), clientWriter);
-                    System.out.println("A command has been received");
+                    responseBuilder.clearResponse();
+                    System.out.println("Принята команда: " + command.getClass().getSimpleName());
                     objectInput = new ObjectInputStream(clientInputStream);
                 }
 
