@@ -23,7 +23,8 @@ public class ServerApp implements Server {
     private EOTWrapper eotWrapper;
 
     @Inject
-    public ServerApp(CollectionWrapper collectionWrapper, ServerConfiguration serverConfig,
+    public ServerApp(CollectionWrapper collectionWrapper,
+                     ServerConfiguration serverConfig,
                      ResponseBuilder responseBuilder) {
         this.serverConfiguration = serverConfig;
         this.collectionWrapper = collectionWrapper;
@@ -32,7 +33,7 @@ public class ServerApp implements Server {
 
     public static void main(String[] args) {
         if (args.length == 0 || args[0].trim().length() == 0) {
-            System.out.println("Вы не ввели название файла, из которого нужно загрузить коллекцию!");
+            System.out.println("Вы не ввели название файла для загрузки и сохранения коллекции!");
             System.exit(1);
         }
         String fileName = args[0];
@@ -61,33 +62,32 @@ public class ServerApp implements Server {
         return serverCommandReceiverFactory.create(fileName);
     }
 
-    void sendResponseToClient(String response, BufferedWriter clientWriter) throws IOException {
-        clientWriter.write(response);
+    private void sendResponseToClient(BufferedWriter clientWriter) throws IOException {
+        clientWriter.write(eotWrapper.wrap(responseBuilder.getResponse()));
         clientWriter.flush();
+        responseBuilder.clearResponse();
     }
 
-    public void handleRequests() {
+    private void handleRequests() {
         while (true) {
             try (Socket clientSocket = serverSocket.accept();
                  BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
-                Command command;
 
+                Command command;
                 InputStream clientInputStream = clientSocket.getInputStream();
-                ObjectInputStream objectInput = new ObjectInputStream(clientInputStream);
+                ObjectInputStream objectInput;
 
                 while (true) {
+                    objectInput = new ObjectInputStream(clientInputStream);
                     command = (Command) objectInput.readObject();
                     command.serverExecute(serverCommandReceiver);
-                    sendResponseToClient(eotWrapper.wrap(responseBuilder.getResponse()), clientWriter);
-                    responseBuilder.clearResponse();
                     System.out.println("Принята команда: " + command.getClass().getSimpleName());
-                    objectInput = new ObjectInputStream(clientInputStream);
+                    sendResponseToClient(clientWriter);
                 }
-
             } catch (IOException e) {
-                System.out.println("Can not handle request, the reason of that: " + e.getMessage());
+                System.out.println("Не удалось обработать запрос: " + e.getMessage());
             } catch (ClassNotFoundException e) {
-                System.out.println("Can not deserialize a requested command: {}" + e.getMessage());
+                System.out.println("Не удалось десериализировать объект: {}" + e.getMessage());
             }
         }
     }
