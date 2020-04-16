@@ -9,10 +9,8 @@ import lab6.client.interfaces.Client;
 import lab6.client.interfaces.CommandRepository;
 import lab6.client.interfaces.ServerIO;
 
-import java.io.IOException;
 import java.util.Scanner;
 
-import static lab6.util.BetterStrings.coloredRed;
 import static lab6.util.BetterStrings.coloredYellow;
 
 @Singleton

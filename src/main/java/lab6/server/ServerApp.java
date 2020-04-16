@@ -83,6 +83,7 @@ public class ServerApp implements Server {
                     command.serverExecute(serverCommandReceiver);
                     System.out.println("Принята команда: " + command.getClass().getSimpleName());
                     sendResponseToClient(clientWriter);
+                    System.out.println("Отправлен ответ на команду " + command.getClass().getSimpleName());
                 }
             } catch (IOException e) {
                 System.out.println("Не удалось обработать запрос: " + e.getMessage());

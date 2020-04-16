@@ -107,15 +107,19 @@ public class MyServerIO implements ServerIO {
             try {
                 if (!isOpen()) open();
                 sendToServer(command);
+
+                try {
+                    String result = receiveFromServer();
+                    System.out.println("Получен результат команды:\n" + result);
+                } catch (IOException e) {
+                    System.out.println(coloredRed("При получении ответа возникла ошибка: " + e.getMessage()));
+                }
+
             } catch (IOException e) {
                 System.out.println(coloredRed("Не получилось отправить команду: " + e.getMessage()));
-            }
-
-            try {
-                String result = receiveFromServer();
-                System.out.println("Получен результат команды:\n" + result);
-            } catch (IOException e) {
-                System.out.println(coloredRed("При получении ответа возникла ошибка: " + e.getMessage()));
+                open();
+                System.out.println("Повторная отправка команды " + command.getClass().getSimpleName());
+                sendAndReceive(command);
             }
         }
     }
