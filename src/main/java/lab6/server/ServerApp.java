@@ -5,6 +5,7 @@ import com.google.inject.name.Named;
 import lab6.client.commands.Command;
 import lab6.server.interfaces.*;
 import lab6.util.FileIO;
+import lab6.util.StdoutConsoleHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -23,7 +24,7 @@ public class ServerApp implements Server {
     private ServerCommandReceiverFactory serverCommandReceiverFactory;
     @Inject
     private EOTWrapper eotWrapper;
-    private static Logger logger = Logger.getLogger(ServerApp.class.getName());
+    private static Logger logger;
 
     @Inject
     public ServerApp(CollectionWrapper collectionWrapper,
@@ -32,6 +33,18 @@ public class ServerApp implements Server {
         this.serverConfiguration = serverConfig;
         this.collectionWrapper = collectionWrapper;
         this.responseBuilder = responseBuilder;
+    }
+
+    static {
+        try {
+            String path = ServerApp.class
+                .getResource("/logger.properties")
+                .getFile();
+            System.setProperty("java.util.logging.config.file", path);
+        } catch (NullPointerException e) {
+            System.out.println("Не удалось загрузить конфиг логгера. Запуск в дефолтном режиме");
+        }
+        logger = Logger.getLogger(ServerApp.class.getName());
     }
 
     public static void main(String[] args) {
