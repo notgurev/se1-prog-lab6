@@ -3,16 +3,22 @@ package lab6.util;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import lab6.exceptions.LabWorkFieldException;
+import lab6.server.ServerApp;
 import lab6.server.interfaces.CollectionWrapper;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
+import static lab6.util.BetterStrings.*;
 
 /**
  * Класс для чтения и записи в файл в формате CSV
  */
 public class FileIO {
+    private static Logger logger = Logger.getLogger(FileIO.class.getName());
+
     /**
      * Метод, считывающий коллекцию из файла
      *
@@ -33,22 +39,22 @@ public class FileIO {
                     linesWithErrors.add(line);
                 }
             }
-            System.out.println(BetterStrings.coloredYellow("Коллекция успешно загружена!"));
+            logger.info("Коллекция успешно загружена!");
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден!");
+            logger.warning("Файл не найден!");
         } catch (IOException e) {
-            System.out.println("Что-то пошло не так при чтении файла!");
+            logger.warning("Что-то пошло не так при чтении файла!");
         } catch (CsvException e) {
-            System.out.println("Парсер не смог прочитать коллекцию!");
+            logger.warning("Парсер не смог прочитать коллекцию!");
         } catch (Exception e) {
-            System.out.println("Что-то пошло не так во время считывания коллекции из файла.");
+            logger.warning("Что-то пошло не так во время считывания коллекции из файла.");
         }
         if (!linesWithErrors.isEmpty()) {
-            System.out.println("Следующие строки неправильно хранят элеменент коллекции, поэтому не были прочитаны: "
+            logger.warning("Следующие строки неправильно хранят элеменент коллекции, поэтому не были прочитаны: "
                     + linesWithErrors.toString());
         }
         if (targetCollection.isEmpty()) {
-            System.out.println(BetterStrings.coloredYellow("Коллекция не была загружена из файла, создаем пустую."));
+            logger.info("Коллекция не была загружена из файла, создаем пустую.");
         }
     }
 
