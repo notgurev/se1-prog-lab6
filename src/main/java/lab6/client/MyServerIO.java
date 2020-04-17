@@ -117,6 +117,11 @@ public class MyServerIO implements ServerIO {
 
             } catch (IOException e) {
                 System.out.println(coloredRed("Не получилось отправить команду: " + e.getMessage()));
+                try {
+                    socketChannel.close();
+                } catch (IOException ex) {
+                    System.out.println("Проблемы с закрытием сокета: " + e.getMessage());
+                }
                 open();
                 System.out.println("Повторная отправка команды " + command.getClass().getSimpleName());
                 sendAndReceive(command);
