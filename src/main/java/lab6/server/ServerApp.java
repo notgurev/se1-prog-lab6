@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 public class ServerApp implements Server {
     private final CollectionWrapper collectionWrapper;
     private final ResponseBuilder responseBuilder;
-    private final ServerConfiguration serverConfiguration;
     private ServerCommandReceiver serverCommandReceiver;
     private ServerSocket serverSocket;
     @Inject
@@ -24,12 +23,10 @@ public class ServerApp implements Server {
     @Inject
     private EOTWrapper eotWrapper;
     private static final Logger logger;
+    private final int PORT = 6006;
 
     @Inject
-    public ServerApp(CollectionWrapper collectionWrapper,
-                     ServerConfiguration serverConfig,
-                     ResponseBuilder responseBuilder) {
-        this.serverConfiguration = serverConfig;
+    public ServerApp(CollectionWrapper collectionWrapper, ResponseBuilder responseBuilder) {
         this.collectionWrapper = collectionWrapper;
         this.responseBuilder = responseBuilder;
     }
@@ -65,7 +62,7 @@ public class ServerApp implements Server {
     @Override
     public void start(String fileName) throws IOException {
         this.serverCommandReceiver = createServerCommandReceiver(fileName);
-        this.serverSocket = new ServerSocket(serverConfiguration.getPort());
+        this.serverSocket = new ServerSocket(PORT);
         FileIO.readCollectionFromFile(fileName, collectionWrapper);
         handleRequests();
     }

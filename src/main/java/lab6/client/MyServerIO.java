@@ -3,7 +3,6 @@ package lab6.client;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lab6.client.commands.Command;
-import lab6.client.interfaces.ConnectionConfiguration;
 import lab6.client.interfaces.ServerIO;
 import lab6.server.interfaces.EOTWrapper;
 
@@ -20,25 +19,22 @@ import static lab6.util.BetterStrings.coloredYellow;
 @Singleton
 public class MyServerIO implements ServerIO {
     private final int DEFAULT_BUFFER_CAPACITY = 1024;
-    private final ConnectionConfiguration connectionConfiguration;
+    private final int PORT = 6006;
+    private final String HOST = "localhost";
     private SocketChannel socketChannel;
     private ByteBuffer byteBuffer = ByteBuffer.allocate(DEFAULT_BUFFER_CAPACITY);
     @Inject
     private EOTWrapper eotWrapper;
 
     @Inject
-    public MyServerIO(ConnectionConfiguration config) {
-        this.connectionConfiguration = config;
+    public MyServerIO() {
     }
 
     public void open() {
         System.out.println("Попытка соединиться с сервером...");
         try {
             socketChannel = SocketChannel.open();
-            socketChannel.connect(new InetSocketAddress(
-                    connectionConfiguration.getHost(),
-                    connectionConfiguration.getPort()
-            ));
+            socketChannel.connect(new InetSocketAddress(HOST, PORT));
             socketChannel.configureBlocking(false);
             System.out.println(coloredYellow("Соединение с сервером успешно установлено"));
         } catch (IOException e) {
