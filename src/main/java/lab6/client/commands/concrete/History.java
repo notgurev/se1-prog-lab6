@@ -9,7 +9,8 @@ public class History extends ClientSideCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         clientReceiver.history();
+        return true;
     }
 }

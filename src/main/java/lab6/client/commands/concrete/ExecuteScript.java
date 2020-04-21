@@ -30,11 +30,11 @@ public class ExecuteScript extends ScriptCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         // Проверка на пустой аргумент
         if (args.length == 0) {
             System.out.println("Пожалуйста, введите путь к файлу скрипта.");
-            return;
+            return false;
         }
         String scriptFileName = args[0];
 
@@ -54,7 +54,7 @@ public class ExecuteScript extends ScriptCommand {
                 line = scanner.nextLine().split(" ");
                 try {
                     Command command = Parser.parseThenRun(line, commandRepository);
-                    commandRepository.getServerIO().sendAndReceive(command);
+                    if (command != null) commandRepository.getServerIO().sendAndReceive(command);
                     if (command instanceof ConstructingCommand) currentLine += LabWork.getNumberOfFields();
                 } catch (SelfCallingScriptException e) {
                     linesWithErrors.add(currentLine);
@@ -80,5 +80,6 @@ public class ExecuteScript extends ScriptCommand {
             // Когда закончили, удаляем название скрипта из executingScripts
             clientReceiver.getExecutingScripts().remove(scriptFileName);
         }
+        return false;
     }
 }

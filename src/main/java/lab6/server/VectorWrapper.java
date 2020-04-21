@@ -66,10 +66,10 @@ public class VectorWrapper implements CollectionWrapper {
         return labWork.getId();
     }
 
-    public boolean filterGreaterThanMinimalPoint(Integer minimalPoint) {
-        return labWorks.stream()
+    public String filterGreaterThanMinimalPoint(Integer minimalPoint) {
+        return multiline(labWorks.stream()
                 .filter(labWork -> (labWork.getMinimalPoint() != null && labWork.getMinimalPoint() > minimalPoint))
-                .map(LabWork::toString).peek(System.out::println).count() != 0;
+                .map(LabWork::toString).toArray());
     }
 
     public Set<Integer> getUniqueTunedInWorks() {

@@ -9,7 +9,8 @@ public class Help extends ClientSideCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         clientReceiver.help();
+        return true;
     }
 }

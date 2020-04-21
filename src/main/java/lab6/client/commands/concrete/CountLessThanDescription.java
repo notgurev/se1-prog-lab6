@@ -17,7 +17,8 @@ public class CountLessThanDescription extends RegularCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         description = String.join(" ", args);
+        return true;
     }
 }

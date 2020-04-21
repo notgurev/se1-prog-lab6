@@ -15,11 +15,11 @@ public interface Command extends Serializable {
 
     /**
      * Метод, выполняемый на клиенте
-     *
-     * @param args           аргументы команды
+     *  @param args           аргументы команды
      * @param clientReceiver серверный ресивер команд
+     * @return true, если выполнилась нормально; false, если нет
      */
-    void clientExecute(String[] args, ClientCommandReceiver clientReceiver);
+    boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver);
 
     /**
      * @return true, если команду нужно отправить на сервер; false, если не нужно.

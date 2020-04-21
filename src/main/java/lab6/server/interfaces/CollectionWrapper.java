@@ -29,7 +29,7 @@ public interface CollectionWrapper {
 
     Set<Integer> getUniqueTunedInWorks();
 
-    boolean filterGreaterThanMinimalPoint(Integer minimalPoint);
+    String filterGreaterThanMinimalPoint(Integer minimalPoint);
 
     void removeByID(long id) throws NoElementWithSuchIdException;
 

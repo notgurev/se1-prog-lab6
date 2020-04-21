@@ -43,8 +43,7 @@ public class ClientApp implements Client {
             String[] input = consoleScanner.nextLine().trim().split(" ");
             Command command = Parser.parseThenRun(input, commandRepository);
 
-            if (command == null) System.out.println("Такой команды не существует. Список комманд: help.");
-            else serverIO.sendAndReceive(command);
+            if (command != null) serverIO.sendAndReceive(command);
         }
     }
 

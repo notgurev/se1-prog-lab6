@@ -102,9 +102,11 @@ public class ServerCommandReceiverImpl implements ServerCommandReceiver {
         if (collectionWrapper.isEmpty()) {
             responseBuilder.addLineToResponse((coloredYellow("Коллекция пуста!")));
         } else {
-            if (!collectionWrapper.filterGreaterThanMinimalPoint(minimalPoint)) {
-                responseBuilder.addLineToResponse(coloredYellow("Элементов, значение поля minimalPoint которых больше заданного, нет."));
-            }
+            String response = collectionWrapper.filterGreaterThanMinimalPoint(minimalPoint);
+            if (response.equals("")) {
+                responseBuilder.addLineToResponse(
+                        coloredYellow("Элементов, значение поля minimalPoint которых больше заданного, нет."));
+            } else responseBuilder.addLineToResponse(response);
         }
     }
 

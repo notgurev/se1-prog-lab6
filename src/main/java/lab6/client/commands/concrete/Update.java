@@ -18,7 +18,7 @@ public class Update extends ConstructingCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         boolean scriptMode = !clientReceiver.getExecutingScripts().isEmpty();
         try {
             id = Long.parseLong(args[0]);
@@ -28,9 +28,11 @@ public class Update extends ConstructingCommand {
                 else throw new NumberFormatException();
             }
             carriedObject = ElementCreator.buildLabWork(clientReceiver);
+            return true;
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             if (!scriptMode) System.out.println("Введите корректный целочисленный id в качестве аргумента!");
             else throw new RuntimeException();
+            return false;
         }
     }
 }

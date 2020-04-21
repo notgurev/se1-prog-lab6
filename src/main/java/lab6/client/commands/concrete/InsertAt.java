@@ -18,14 +18,17 @@ public class InsertAt extends ConstructingCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         try {
             index = Integer.parseInt(args[0]);
+            if (index < 0) throw new NumberFormatException();
             carriedObject = ElementCreator.buildLabWork(clientReceiver);
+            return true;
         } catch (NumberFormatException e) {
             if (clientReceiver.getExecutingScripts().isEmpty())
                 System.out.println("Введите корректный положительный целочисленный индекс!");
             else throw new NumberFormatException();
+            return false;
         }
     }
 }

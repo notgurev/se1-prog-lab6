@@ -8,7 +8,7 @@ public abstract class NonValidatingRegularCommand extends RegularCommand {
     }
 
     @Override
-    public final void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
-        // empty and final
+    public final boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+        return true;
     }
 }

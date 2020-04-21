@@ -17,11 +17,15 @@ public class RemoveByID extends RegularCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         try {
             id = Long.parseLong(args[0]);
+            return true;
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("Пожалуйста, введите корректный числовой id в качестве аргумента.");
+            if (clientReceiver.getExecutingScripts().isEmpty())
+                System.out.println("Пожалуйста, введите корректный числовой id в качестве аргумента.");
+            else throw new NumberFormatException();
+            return false;
         }
     }
 }

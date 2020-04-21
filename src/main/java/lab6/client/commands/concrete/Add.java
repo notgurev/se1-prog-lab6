@@ -17,7 +17,8 @@ public class Add extends ConstructingCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientCommandReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientCommandReceiver) {
         carriedObject = ElementCreator.buildLabWork(clientCommandReceiver);
+        return true;
     }
 }

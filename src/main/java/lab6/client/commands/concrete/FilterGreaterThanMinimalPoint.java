@@ -17,15 +17,15 @@ public class FilterGreaterThanMinimalPoint extends RegularCommand {
     }
 
     @Override
-    public void clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
+    public boolean clientExecute(String[] args, ClientCommandReceiver clientReceiver) {
         try {
             minimalPoint = Integer.parseInt(args[0]);
+            return true;
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("Пожалуйста, введите корректное число в качестве аргумента.");
+            if (clientReceiver.getExecutingScripts().isEmpty())
+                System.out.println("Пожалуйста, введите корректное число в качестве аргумента.");
+            else throw new NumberFormatException();
+            return false;
         }
-        /*
-        TODO возможно клиент отправит команду на сервер, даже если нет ошибки
-        Так что надо мб возвращать boolean => false, если что-то пошло не так.
-         */
     }
 }

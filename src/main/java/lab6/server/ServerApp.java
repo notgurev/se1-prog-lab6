@@ -5,7 +5,6 @@ import com.google.inject.name.Named;
 import lab6.client.commands.Command;
 import lab6.server.interfaces.*;
 import lab6.util.FileIO;
-import lab6.util.StdoutConsoleHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -24,7 +23,7 @@ public class ServerApp implements Server {
     private ServerCommandReceiverFactory serverCommandReceiverFactory;
     @Inject
     private EOTWrapper eotWrapper;
-    private static Logger logger;
+    private static final Logger logger;
 
     @Inject
     public ServerApp(CollectionWrapper collectionWrapper,
@@ -37,33 +36,27 @@ public class ServerApp implements Server {
 
     static {
         try {
-            String path = ServerApp.class
-                .getResource("/logger.properties")
-                .getFile();
-            System.setProperty("java.util.logging.config.file", path);
-        } catch (NullPointerException e) {
+            LogManager.getLogManager()
+                    .readConfiguration(ServerApp.class.getClassLoader().getResourceAsStream("logger.properties"));
+        } catch (NullPointerException | IOException e) {
             System.out.println("Не удалось загрузить конфиг логгера. Запуск в дефолтном режиме");
         }
         logger = Logger.getLogger(ServerApp.class.getName());
     }
 
     public static void main(String[] args) {
-//        try {
-//            LogManager.getLogManager().readConfiguration(ServerApp.class.getResourceAsStream("/logger.properties"));
-//        } catch (IOException e) {
-//            System.out.println("Не удалось настроить логгер.");
-//        } // TODO вот такая вот загрузка, иначе нужно указать аргумент Djava.util.logging.config.file=logger.properties
         logger.info("Инициализация сервера");
+
         if (args.length == 0 || args[0].trim().length() == 0) {
             logger.info("Не указано название файла для загрузки и сохранения коллекции!");
             System.exit(1);
         }
-        String fileName = args[0];
-        Injector injector = Guice.createInjector(new ServerModule());
 
+        Injector injector = Guice.createInjector(new ServerModule());
         Server serverApp = injector.getInstance(Server.class);
+
         try {
-            serverApp.start(fileName);
+            serverApp.start(args[0]);
         } catch (IOException e) {
             logger.info("С сервером что-то пошло не так:\n" + e.getMessage());
         }

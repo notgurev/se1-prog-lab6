@@ -1,5 +1,8 @@
 package lab6.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Класс со всякими удобствами для вывода в консоль
  */
@@ -21,6 +24,8 @@ public class BetterStrings {
      * @return строка с переносами строк
      */
     public static String multiline(Object... s) {
+        if (s.length == 0) return "";
+        List<Object> input = Arrays.asList(s);
         StringBuilder finalLine = new StringBuilder();
         for (int i = 0; i < s.length - 1; i++) {
             finalLine.append(s[i].toString()).append('\n');
