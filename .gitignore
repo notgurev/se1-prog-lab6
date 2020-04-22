@@ -1,5 +1,5 @@
 .idea/
 target
 *.iml
-**/log.txt
-**/log.txt.lck
+**/*log.txt
+**/*log.txt.lck
