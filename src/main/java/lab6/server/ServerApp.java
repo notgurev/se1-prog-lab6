@@ -9,6 +9,7 @@ import lab6.util.FileIO;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -85,7 +86,7 @@ public class ServerApp implements Server {
         logger.info("Начата обработка запросов");
         while (true) {
             try (Socket clientSocket = serverSocket.accept();
-                 BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
+                 BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8))) {
                 logger.info("Принят clientSocket, создан clientWriter");
 
                 InputStream clientInputStream = clientSocket.getInputStream();

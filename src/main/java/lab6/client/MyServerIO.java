@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import lab6.client.commands.Command;
 import lab6.client.interfaces.ServerIO;
 import lab6.server.interfaces.EOTWrapper;
+import lab6.util.ByteArrays;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,6 +13,11 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static lab6.util.BetterStrings.coloredRed;
 import static lab6.util.BetterStrings.coloredYellow;
@@ -83,17 +89,20 @@ public class MyServerIO implements ServerIO {
         ByteBuffer buffer = getByteBuffer();
         buffer.clear();
         StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<Byte> stringBytes = new ArrayList<>();
+        String stringSlice = "";
         byte[] readBytes;
-        while (!eotWrapper.hasEOTSymbol(stringBuilder.toString())) {
+        while (!eotWrapper.hasEOTSymbol(stringSlice)) {
             if (socketChannel.read(buffer) > 0) {
                 buffer.flip();
                 readBytes = new byte[buffer.limit()];
                 buffer.get(readBytes);
-                stringBuilder.append(new String(readBytes));
+                stringBytes.addAll(ByteArrays.toList(readBytes));
+                stringSlice = new String(readBytes);
                 buffer.clear();
             }
         }
-
+        stringBuilder.append(new String(ByteArrays.toByteArray(stringBytes)));
         return eotWrapper.unwrap(stringBuilder.toString());
     }
 
