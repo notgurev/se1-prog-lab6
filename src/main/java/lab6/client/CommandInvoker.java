@@ -11,6 +11,7 @@ import lab6.client.interfaces.ServerIO;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 
 import static lab6.util.BetterStrings.multiline;
 
@@ -21,27 +22,10 @@ public class CommandInvoker implements CommandRepository {
     private final ServerIO serverIO;
 
     @Inject
-    public CommandInvoker(ClientCommandReceiver clientCommandReceiver, ServerIO serverIO) {
+    public CommandInvoker(ClientCommandReceiver clientCommandReceiver, ServerIO serverIO, Set<AbstractCommand> commands) {
         this.clientCommandReceiver = clientCommandReceiver;
         this.serverIO = serverIO;
-        addCommand(
-                new Add(),
-                new Clear(),
-                new CountLessThanDescription(),
-                new ExecuteScript(this),
-                new Exit(),
-                new FilterGreaterThanMinimalPoint(),
-                new Help(),
-                new History(),
-                new Info(),
-                new InsertAt(),
-                new PrintUniqueTunedInWorks(),
-                new RemoveByID(),
-                new Save(),
-                new Show(),
-                new Sort(),
-                new Update()
-        );
+        addCommand(commands.toArray(new AbstractCommand[commands.size()]));
         clientCommandReceiver.setHelpText(multiline(commandMap.values().stream()
                 .map(command -> command.getKey() + command.getHelpText()).toArray()));
     }

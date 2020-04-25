@@ -1,5 +1,6 @@
 package lab6.client.commands.concrete;
 
+import com.google.inject.Inject;
 import lab6.client.Parser;
 import lab6.client.commands.Command;
 import lab6.client.commands.ConstructingCommand;
@@ -21,9 +22,11 @@ import java.util.Scanner;
 import static lab6.util.BetterStrings.coloredRed;
 import static lab6.util.BetterStrings.coloredYellow;
 
+
 public class ExecuteScript extends ScriptCommand {
     private CommandRepository commandRepository;
 
+    @Inject
     public ExecuteScript(CommandRepository commandRepository) {
         super("execute_script", " file_name - считать и исполнить скрипт из указанного файла");
         this.commandRepository = commandRepository;
