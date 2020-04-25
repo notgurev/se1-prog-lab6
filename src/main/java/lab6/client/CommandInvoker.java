@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lab6.client.commands.AbstractCommand;
 import lab6.client.commands.Command;
-import lab6.client.commands.concrete.*;
 import lab6.client.interfaces.ClientCommandReceiver;
 import lab6.client.interfaces.CommandRepository;
 import lab6.client.interfaces.ServerIO;
@@ -50,5 +49,13 @@ public class CommandInvoker implements CommandRepository {
         if (!command.clientExecute(args, clientCommandReceiver)) command = null;
         clientCommandReceiver.getCommandHistory().add(commandKey); // Записываем в историю команд
         return command; // Возвращаем, чтобы отправить на сервер
+    }
+
+    @Override
+    public Command parseThenRun(String[] input) {
+        String commandKey = input[0]; // Первый аргумент - ключ команды
+        String[] ar = Arrays.copyOfRange(input, 1, input.length); // Создаем массив аргументов из старого (кроме 1 аргумента)
+        // Передача ключа и аргументов обработчику команд
+        return runCommand(commandKey, ar);
     }
 }

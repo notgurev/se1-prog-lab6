@@ -41,7 +41,7 @@ public class ClientApp implements Client {
             System.out.print(">> ");
 
             String[] input = consoleScanner.nextLine().trim().split(" ");
-            Command command = Parser.parseThenRun(input, commandRepository);
+            Command command = commandRepository.parseThenRun(input);
 
             if (command != null) serverIO.sendAndReceive(command);
         }

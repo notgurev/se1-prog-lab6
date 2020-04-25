@@ -6,4 +6,6 @@ public interface CommandRepository {
     Command runCommand(String commandKey, String[] args);
 
     ServerIO getServerIO();
+
+    Command parseThenRun(String[] input);
 }

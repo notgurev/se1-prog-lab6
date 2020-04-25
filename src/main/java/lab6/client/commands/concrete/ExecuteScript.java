@@ -1,7 +1,6 @@
 package lab6.client.commands.concrete;
 
 import com.google.inject.Inject;
-import lab6.client.Parser;
 import lab6.client.commands.Command;
 import lab6.client.commands.ConstructingCommand;
 import lab6.client.commands.ScriptCommand;
@@ -56,7 +55,7 @@ public class ExecuteScript extends ScriptCommand {
                 currentLine++;
                 line = scanner.nextLine().split(" ");
                 try {
-                    Command command = Parser.parseThenRun(line, commandRepository);
+                    Command command = commandRepository.parseThenRun(line);
                     if (command != null) commandRepository.getServerIO().sendAndReceive(command);
                     if (command instanceof ConstructingCommand) currentLine += LabWork.getNumberOfFields();
                 } catch (SelfCallingScriptException e) {
