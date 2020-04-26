@@ -64,7 +64,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>lab6.server.ServerApp</mainClass>
+                            <mainClass>se1_prog_lab.server.ServerApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -87,7 +87,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>lab6.server.ServerApp</mainClass>
+                            <mainClass>se1_prog_lab.server.ServerApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
